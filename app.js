@@ -5,11 +5,16 @@
 
 var express = require('express');
 var routes = require('./routes');
-// var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
 
 var app = express();
+
+// Database
+var Database = require('./modules/database');
+var db = new Database();
+db.connect('mongodb://localhost/users');
+
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -27,7 +32,7 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-// app.get('/', routes.index);
+app.get('/', routes.index);
 app.get('/admin', routes.admin);
 
 http.createServer(app).listen(app.get('port'), function(){
