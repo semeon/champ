@@ -31,11 +31,20 @@
 
   <body>
 
-		<% include _navbar.ejs %>
+   	<% if (typeof mode == 'undefined') mode = '';%>
+ 		<!-- Mode: <%= mode %> -->
+   	<% if (typeof page == 'undefined') mode = '';%>
+ 		<!-- Page: <%= page %> -->
+
+		<%if (mode == 'admin') {%>  
+			<% include _navbar_admin.ejs %>
+		<%} else {%>
+			<% include _navbar.ejs %>
+		<%}%>
+
 
 		<div class="container">
-		
-			<!-- <% include _content.ejs %> -->
+
 
  			<%if (page == 'login') {%>  
 

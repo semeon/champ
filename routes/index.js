@@ -4,7 +4,7 @@
  */
 
 exports.index = function(req, res){
-  res.render('container', 
+  res.render('index', 
   					{ title: 'Rock-n-roll Racing',
   						page: 'index'
   					});
@@ -13,9 +13,19 @@ exports.index = function(req, res){
 exports.login = function(req, res){
   res.render('container', 
   					{ title: 'Rock-n-roll Racing',
+  						mode: 'user',
   						page: 'login'
   					});
 };
+
+exports.admin = function(req, res){
+  res.render('container', 
+  					{ title: 'Admin',
+  						mode: 'admin',
+  						page: 'admin'
+  					});
+};
+
 
 
 
