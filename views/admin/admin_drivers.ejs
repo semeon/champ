@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-10 col-md-offset-1">
+  <div class="col-md-10 col-md-offset-1" ng-controller="driversCtrl" ng-init="init('TEST DATA')">
 
 	  <h2>Пилоты</h2>
 
@@ -11,6 +11,7 @@
 					<th>Имя</th>
 					<th>Email</th>
 					<th>Телефон</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -20,6 +21,7 @@
 					<td>Пуп</td>
 					<td>pup@mail.ru</td>
 					<td>+7 921 555 5555</td>
+					<td></td>
 				</tr>
 
 				<% for (var i=0; i<data.length; i++) { %>
@@ -29,6 +31,7 @@
 					<td><%= data[i].name %></td>
 					<td><%= data[i].email %></td>
 					<td><%= data[i].tel %></td>
+					<td><a href="" ng-click="test()"><i class="icon-edit"></i> редактировать</a></td>
 				</tr>
 				<% } %>
 

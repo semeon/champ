@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app>
 	<% include _header.ejs %> 
   <body>
 		<% include _admin_navbar.ejs %> 
@@ -12,7 +12,7 @@
 			<%}%>
 
 			<% if (page == 'drivers')	{%>
-				<% include admin_drivers.ejs %>
+				<% include admin/admin_drivers.ejs %>
 			<%}%>
 
 		</div>
