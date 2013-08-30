@@ -4,10 +4,16 @@ exports.init = function(pass, LocalStrategy) {
 
 		passport = pass;
 
-		var users = [
+		var users_default = [
 		    { id: 1, username: 'bob', password: 'secret', email: 'bob@example.com' }
 		  , { id: 2, username: 'joe', password: 'birthday', email: 'joe@example.com' }
 		];
+
+		var users = [
+		    { id: 1, username: 'admin', password: 'admin' }
+		  , { id: 2, username: 'admin2', password: 'admin' }
+		];
+
 
 		function findById(id, fn) {
 		  var idx = id - 1;
@@ -94,7 +100,7 @@ exports.login = function(req, res, next) {
 //   the request will proceed.  Otherwise, the user will be redirected to the
 //   login page.
 exports.ensureAuthenticated = function(req, res, next) {
-	console.log('ensureAuthenticated called');
+	// console.log('ensureAuthenticated called');
   if (req.isAuthenticated()) { return next(); }
   res.redirect('/login')
 }

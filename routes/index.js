@@ -11,10 +11,14 @@ exports.index = function(req, res){
 };
 
 exports.login = function(req, res){
+
+	console.log('req.session.messages: ' + req.session.messages);
+
   res.render('container', 
   					{ title: 'Rock-n-roll Racing',
   						mode: 'user',
-  						page: 'login'
+  						page: 'login',
+  						messages: req.session.messages
   					});
 };
 
