@@ -2,9 +2,11 @@
 <html lang="en">
 	<% include _header.ejs %> 
   <body>
-		<% include _navbar.ejs %> 
+		<% include _user_navbar.ejs %> 
 		<div class="container">
-			<% include _content.ejs %> 
+			<% include user/content.ejs %> 
+			<br/>
+  		<% include _nothing.ejs %>
 		</div>
   </body>
 </html>

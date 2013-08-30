@@ -1,8 +1,3 @@
-
-/*
- * GET home page.
- */
-
 exports.index = function(req, res){
   res.render('index', 
   					{ title: 'Rock-n-roll Racing',
@@ -14,7 +9,7 @@ exports.login = function(req, res){
 
 	console.log('req.session.messages: ' + req.session.messages);
 
-  res.render('container', 
+  res.render('login', 
   					{ title: 'Rock-n-roll Racing',
   						mode: 'user',
   						page: 'login',
@@ -31,13 +26,3 @@ exports.admin = function(req, res){
   					});
 };
 
-
-
-
-// exports.index = function(req, res){
-//   res.render('index', { title: 'Rock-n-roll Racing' });
-// };
-
-// exports.admin = function(req, res){
-//   res.render('admin', { title: 'Administration' });
-// };

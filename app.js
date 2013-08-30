@@ -1,5 +1,8 @@
 var express = require('express');
 var routes = require('./routes');
+var adminRoutes = require('./routes/admin');
+
+
 var http = require('http');
 var path = require('path');
 
@@ -50,9 +53,12 @@ if ('development' == app.get('env')) {
 
 // Routers
 app.get( '/', 			routes.index);
-app.get( '/login', 	routes.login);
-app.get( '/admin', 	auth.ensureAuthenticated, routes.admin);
+app.get( '/admin', 	auth.ensureAuthenticated, adminRoutes.index);
+app.get( '/admin/drivers', 	auth.ensureAuthenticated, adminRoutes.drivers);
 
+
+// Auth
+app.get( '/login', 	routes.login);
 app.post('/login', 	auth.login);
 app.get( '/logout', function(req, res){
 										  req.logout();

@@ -1,0 +1,26 @@
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+
+  <div class="navbar-header">
+    <a class="navbar-brand" href="/">Rock-n-roll Racing</a>
+  </div>
+
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+      <li <% if (page == 'index') {%> class="active"<%}%>>
+        <a href="/admin">Обзор</a>
+      </li>
+      <li><a href="#">Сезоны</a></li>
+      <li><a href="#">Этапы</a></li>
+      <li <% if (page == 'drivers') {%> class="active"<%}%>>
+        <a href="/admin/drivers">Пилоты</a>
+      </li>
+      <li><a href="#">Команды</a></li>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="/logout"><i class="icon-signout"></i>&nbsp;&nbsp;Выйти</a></li>
+    </ul>
+    <p class="navbar-text pull-right"><i class="icon-exclamation-sign"></i>&nbsp;&nbsp;Вы вошли как администратор.</p>
+  </div>
+
+</nav> 

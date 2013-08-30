@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+
+	  <h2>Пилоты</h2>
+
+		<table class="table table-condensed table-hover table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Ник</th>
+					<th>Имя</th>
+					<th>Email</th>
+					<th>Телефон</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>auto</td>
+					<td>Василий Пупкин</td>
+					<td>Пуп</td>
+					<td>pup@mail.ru</td>
+					<td>+7 921 555 5555</td>
+				</tr>
+
+				<% for (var i=0; i<data.length; i++) { %>
+				<tr>
+					<td><%= data[i].id %></td>
+					<td><%= data[i].nick %></td>
+					<td><%= data[i].name %></td>
+					<td><%= data[i].email %></td>
+					<td><%= data[i].tel %></td>
+				</tr>
+				<% } %>
+
+
+			</tbody>
+		</table>  	
+
+  </div>
+</div>

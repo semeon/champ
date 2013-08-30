@@ -2,9 +2,19 @@
 <html lang="en">
 	<% include _header.ejs %> 
   <body>
-		<% include _navbar_admin.ejs %> 
+		<% include _admin_navbar.ejs %> 
 		<div class="container">
-			<% include _content.ejs %> 
+
+		<h2><%= page %></h2>
+
+			<% if (page == 'index')	{%>
+				<% include _nothing.ejs %>
+			<%}%>
+
+			<% if (page == 'drivers')	{%>
+				<% include admin_drivers.ejs %>
+			<%}%>
+
 		</div>
   </body>
 </html>
