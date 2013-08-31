@@ -1,11 +1,8 @@
 var express = require('express');
 var routes = require('./routes');
 var adminRoutes = require('./routes/admin');
-
-
 var http = require('http');
 var path = require('path');
-
 
 // AUTH
 	var passport = require('passport');
@@ -14,12 +11,8 @@ var path = require('path');
 	var auth = require('./modules/auth');
 	auth.init(passport, LocalStrategy);
 
-
-
-
+// Express
 var app = express();
-
-// configure Express
 app.configure(function() {
 	app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
@@ -42,7 +35,7 @@ app.configure(function() {
 // Database
 var Database = require('./modules/database');
 var db = new Database();
-db.connect('mongodb://localhost/users');
+db.connect();
 
 
 // development only
@@ -64,15 +57,6 @@ app.get( '/logout', function(req, res){
 										  req.logout();
 										  res.redirect('/');
 										});
-
-
-
-
-
-
-
-
-
 
 
 

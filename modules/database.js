@@ -1,6 +1,9 @@
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema
-  , ObjectId = Schema.ObjectId;
+var Schema = mongoose.Schema;
+var ObjectId = Schema.ObjectId;
+
+var dbEnv = require('../env/mongodb.js');
+var dbUrl = dbEnv.url();
  
 var Database = module.exports = function Database(){};
  
@@ -17,8 +20,8 @@ Database.prototype = {
 	, _schema: {}
 	, _model: {}
 	
-	, connect: function(url){
-		mongoose.connect(url);
+	, connect: function(){
+		mongoose.connect(dbUrl);
 		
 		this._schema.adminUser = new Schema(this._collections.adminUser);
 		this._model.adminUser = mongoose.model('adminUser', this._schema.adminUser);
