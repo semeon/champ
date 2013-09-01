@@ -32,11 +32,6 @@ app.configure(function() {
 	app.use(express.static(path.join(__dirname, 'public')));
 });
 
-// Database
-var Database = require('./modules/database');
-var db = new Database();
-db.connect();
-
 
 // development only
 if ('development' == app.get('env')) {
