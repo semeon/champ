@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-10 col-md-offset-1" ng-controller="driversCtrl" ng-init="init('TEST DATA')">
+  <div class="col-md-10 col-md-offset-1">
 
 	  <h2>Пилоты</h2>
 
@@ -25,19 +25,19 @@
 				</tr>
 
 				<% for (var i=0; i<data.length; i++) { %>
-				<tr>
-					<td><%= data[i].id %></td>
-					<td><%= data[i].nick %></td>
-					<td><%= data[i].name %></td>
-					<td><%= data[i].email %></td>
-					<td><%= data[i].tel %></td>
-					<td><a href="" ng-click="test()"><i class="icon-edit"></i> редактировать</a></td>
-				</tr>
+					<tr ng-controller="driverCtrl" ng-init='drivers = <%-JSON.stringify(data[i])%>;'>
+						<td><%= data[i].id %></td>
+						<td><%= data[i].nick %></td>
+						<td><%= data[i].name %></td>
+						<td><%= data[i].email %></td>
+						<td><%= data[i].tel %></td>
+						<td><a href="" ng-click="editDriverClick()"><i class="icon-edit"></i> редактировать</a></td>
+					</tr>
 				<% } %>
-
 
 			</tbody>
 		</table>  	
+<!-- 		<driverform></driverform> -->
 
   </div>
 </div>
