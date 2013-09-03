@@ -31,3 +31,8 @@ exports.getDrivers = function(callback) {
 	});
 }
 
+exports.getSettings = function() {
+
+	return dbUrl;
+
+}
