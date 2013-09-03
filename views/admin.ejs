@@ -2,10 +2,10 @@
 <html lang="en" ng-app="appModule">
 	<% include _header.ejs %> 
   <body>
+		<!-- PAGE: <%= page %> -->
 		<% include _admin_navbar.ejs %> 
 		<div class="container">
 
-		<h2><%= page %></h2>
 
 			<% if (page == 'index')	{%>
 				<% include _nothing.ejs %>

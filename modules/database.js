@@ -10,7 +10,7 @@ var ObjectId = Schema.ObjectId;
 
 
 // Models
-var driverSchema = mongoose.Schema({id: String, name: String });
+var driverSchema = mongoose.Schema({id: String, name: String, nick: String, email: String, tel: String});
 var Driver = mongoose.model('Driver', driverSchema);
 
 
@@ -31,17 +31,3 @@ exports.getDrivers = function(callback) {
 	});
 }
 
-exports.addDriverDebug = function() {
-	var drv = new Driver({ id: 'stig', name: 'The Stig' });
-  	console.log('DEBUG: Creating new driver:');
-	console.log(drv);
-
-	drv.save(function (err) {
-	  if (err) {
-	  	console.log('Could not save data to DB.');
-	  	console.log(err);
-	  } else {
-	  	console.log('Data was successfully saved to DB.');
-	  }
-	});
-}

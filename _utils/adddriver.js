@@ -14,11 +14,17 @@ var printCollection = function(model) {
 	});
 }
 
-if(process.argv.length == 4){
+if(process.argv.length == 7){
 	// 0 will be node, 1 will be the script
-	var driverSchema = mongoose.Schema({id: String, name: String });
+	var driverSchema = mongoose.Schema({id: String, name: String, nick: String, email: String, tel: String});
 	var Driver = mongoose.model('Driver', driverSchema);
-	var drv = new Driver({ id: process.argv[2], name: process.argv[3] });
+	var drv = new Driver({ 
+					id: process.argv[2], 
+					name: process.argv[3],
+					nick: process.argv[4],
+					email: process.argv[5],
+					tel: process.argv[6]
+								 });
 	console.log(drv);
 
 	drv.save(function (err) {
@@ -34,7 +40,7 @@ if(process.argv.length == 4){
 
 
 }else{
-	console.error("Script requires exactly 2 arguments");
-	console.error("Usage: node adddriver.js id name");
+	console.error("Script requires exactly 4 arguments");
+	console.error("Usage: node adddriver.js id name nick email tel");
 	process.exit(1); // Failure
 }

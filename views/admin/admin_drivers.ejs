@@ -11,41 +11,34 @@
 	  <h2>Пилоты</h2>
 
 
-		<table class="table table-condensed table-hover table-bordered table-striped">
+		<table ng-show="drivers.length" class="table table-condensed table-hover table-bordered table-striped">
 			<thead>
 				<tr>
 					<th>ID</th>
-					<th>Ник</th>
 					<th>Имя</th>
+					<th>Ник</th>
 					<th>Email</th>
 					<th>Телефон</th>
 					<th></th>
 				</tr>
 			</thead>
 			<tbody>
-
-				<tr>
-					<td>auto</td>
-					<td>Пуп</td>
-					<td>Василий Пупкин</td>
-					<td>pup@mail.ru</td>
-					<td>+7 921 555 5555</td>
-					<td></td>
-				</tr>
-
 				<tr ng-repeat="driver in drivers">
 					<td>{{driver.id}}</td>
-					<td>{{driver.nick}}</td>
 					<td>{{driver.name}}</td>
+					<td><em>{{driver.nick}}</em></td>
 					<td>{{driver.email}}</td>
 					<td>{{driver.tel}}</td>
 					<td>
 						<a href="" ng-click="editDriverClick(driver)"><i class="icon-edit"></i></a>
 					</td>
 				</tr>
-
 			</tbody>
 		</table>  	
+
+		<div ng-hide="drivers.length" class="alert alert-info">
+			<strong>Нет данных.</strong> Возможно следует <a href="" ng-click="addDriverClick()">добавить пилота</a>?
+		</div>
 
   </div>
 </div>
