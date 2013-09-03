@@ -2,7 +2,7 @@
 
   <div 	class="col-md-10 col-md-offset-1" 
   			ng-controller="driverListCtrl" 
-  			ng-init='init( <%-JSON.stringify(scope)%> )'>
+  			ng-init='init( <%-JSON.stringify(data)%> )'>
 
 	  <h2>Пилоты</h2>
 
@@ -28,34 +28,19 @@
 					<td></td>
 				</tr>
 
-				<tr ng-repeat="dr in drivers" 
-						ng-controller="driverCtrl"
-						ng-init="init(dr, driverFormTemplate)">
+				<tr ng-repeat="driver in drivers">
 					<td>{{driver.id}}</td>
 					<td>{{driver.nick}}</td>
 					<td>{{driver.name}}</td>
 					<td>{{driver.email}}</td>
 					<td>{{driver.tel}}</td>
 					<td>
-						<a href="" ng-click="editDriverClick()"><i class="icon-edit"></i></a>
+						<a href="" ng-click="editDriverClick(driver)"><i class="icon-edit"></i></a>
 					</td>
 				</tr>
 
-<!--
-				<% for (var i=0; i<data.length; i++) { %>
-					<tr ng-controller="driverCtrl" ng-init='drivers = <%-JSON.stringify(data[i])%>;'>
-						<td><%= data[i].id %></td>
-						<td><%= data[i].nick %></td>
-						<td><%= data[i].name %></td>
-						<td><%= data[i].email %></td>
-						<td><%= data[i].tel %></td>
-						<td><a href="" ng-click="editDriverClick()"><i class="icon-edit"></i> редактировать</a></td>
-					</tr>
-				<% } %>
--->
 			</tbody>
 		</table>  	
-<!-- 		<driverform></driverform> -->
 
   </div>
 </div>

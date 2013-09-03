@@ -1,6 +1,8 @@
 var express = require('express');
 var routes = require('./routes');
 var adminRoutes = require('./routes/admin');
+var templates = require('./routes/templates');
+
 var http = require('http');
 var path = require('path');
 
@@ -53,6 +55,7 @@ app.get( '/logout', function(req, res){
 										  res.redirect('/');
 										});
 
+app.get('/templates/driverForm', 	templates.driverForm);
 
 
 
