@@ -59,11 +59,11 @@ app.get( '/logout', function(req, res){
 app.get('/templates/driverForm', 	templates.driverForm);
 
 
-app.get( '/env', 
-	function(req, res){
-				var db = require('./modules/database');
-			  res.send(db.getSettings());
-	});
+// app.get( '/env', 
+// 	function(req, res){
+// 				var db = require('./modules/database');
+// 			  res.send(db.getSettings());
+// 	});
 
 
 
