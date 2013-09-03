@@ -3,18 +3,15 @@ function driverCtrl($scope) {
     console.log('');
     console.log('driverCtrl Controller started');
 
-		require(["text!/app/views/_driverForm.html"], 
-			function(html) {
-				console.log(html);
-			}
-		);
+
 
     $scope.driver = {};
 
-		$scope.init = function(data) {
-			console.log(log_ctrl + 'init');			
-		  $scope.driver = data;
-			console.log(log_ctrl + $scope.driver);			
+		$scope.init = function(driver, template) {
+			console.log(log_ctrl + 'init()');
+		  $scope.driver = driver;
+			console.log(log_ctrl + $scope.driver);
+			$scope.driverFormTemplate = template;			
 		};
 
 		$scope.editDriverClick = function () {
@@ -22,7 +19,7 @@ function driverCtrl($scope) {
 			console.log($scope.driver);
 
 			bootbox.dialog({
-			  message: '<p>fffffffff</p>',
+			  message: $scope.driverFormTemplate,
 			  title: "Редактировать: Имя / Ник",
 			  onEscape: function() {},
 			  show: true,
