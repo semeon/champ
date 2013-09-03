@@ -4,7 +4,12 @@
   			ng-controller="driverListCtrl" 
   			ng-init='init( <%-JSON.stringify(data)%> )'>
 
+  	<button type="button" class="btn btn-primary btn-sm pull-right"
+  					ng-click="addDriverClick()">
+  		<i class="icon-plus"></i> Добавить
+  	</button>
 	  <h2>Пилоты</h2>
+
 
 		<table class="table table-condensed table-hover table-bordered table-striped">
 			<thead>

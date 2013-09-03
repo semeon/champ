@@ -20,9 +20,15 @@ appModule.factory('EditDriverSrvc', ['$rootScope', '$http', '$compile', function
   editDriverService.showDialog = function(driver) {
     var dialogScope = $rootScope.$new(true);
 
-    dialogScope.driver = driver;
+    if (driver) {
+      dialogScope.driver = driver;
+      dialogScope.title = 'Изменить данные пилота: ' + driver.name;
 
-    console.log(driver);
+    } else {
+      dialogScope.driver = {};
+      dialogScope.title = 'Добавить пилота';
+     
+    }
 
     var dialogDom = $compile(driverFormHtml)(dialogScope);
     $(dialogDom).modal();

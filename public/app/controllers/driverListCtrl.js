@@ -10,9 +10,11 @@ function driverListCtrl($scope, EditDriverSrvc) {
 		};
 
 		$scope.editDriverClick = function (driver) {
-
 			EditDriverSrvc.showDialog(driver);
+		}
 
+		$scope.addDriverClick = function () {
+			EditDriverSrvc.showDialog();
 		}
 
 }
