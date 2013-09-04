@@ -1,3 +1,4 @@
+var logPref = '[Route Admin] ';
 // Database
 var db = require('../modules/database');
 
@@ -26,21 +27,22 @@ exports.drivers = function(req, res){
 
 exports.saveDriver = function(req, res){
 
-  console.log('Processing saving driver request:');
+  console.log(logPref + 'Processing saving driver request:');
   console.log(req.body);
 
-  console.log('Creating driver object:');
+  console.log(logPref + 'Creating driver object:');
   var objId = req.body.dbId;
   var driver = {};
-    driver.id = req.body.driverId;
+    // driver.id = req.body.driverId;
     driver.name = req.body.driverName;
     driver.nick = req.body.driverNick;
     driver.email = req.body.driverEmail;
     driver.tel = req.body.driverPhone;
+
   console.log(driver);
 
   var callback = function(result) {
-    console.log('saveDriver callback');
+    console.log(logPref + 'saveDriver callback');
     console.log(result);
     res.redirect('/admin/drivers');
   }
