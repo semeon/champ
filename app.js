@@ -50,6 +50,8 @@ app.get( '/admin', 	auth.ensureAuthenticated, adminRoutes.index);
 app.get( '/admin/drivers', 	auth.ensureAuthenticated, adminRoutes.drivers);
 
 app.post( '/admin/saveDriver', 	auth.ensureAuthenticated, adminRoutes.saveDriver);
+app.get(  '/admin/deleteDriver',  auth.ensureAuthenticated, adminRoutes.deleteDriver);
+
 
 // Auth
 app.get( '/login', 	routes.login);

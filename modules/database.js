@@ -11,7 +11,7 @@ var ObjectId = Schema.ObjectId;
 
 // Models
 // var driverSchema = mongoose.Schema({id: String, name: String, nick: String, email: String, tel: String});
-var driverSchema = mongoose.Schema({name: String, nick: String, email: String, tel: String});
+var driverSchema = mongoose.Schema({name: String, nick: String, email: String, tel: String, deleted: Boolean});
 var Driver = mongoose.model('Driver', driverSchema);
 
 // System
@@ -40,17 +40,13 @@ exports.getSettings = function() {
 		}
 
 		exports.saveDriver = function(objId, driver, callback) {
-			var result = '';
 			console.log(logPref + 'Saving driver to DB...');
-			console.log(callback);
+
+			driver.deleted = false;
 
 			if (objId) {
 			// Update existing
-				var query = { _id: objId };
-				// var options = {upsert: true};
-				var options = {};
-				Driver.findOneAndUpdate(query, driver, options, callback)
-
+				Driver.findByIdAndUpdate(objId, driver, callback)
 			} else {
 			// Create new
 				var newDriver = new Driver(driver);
@@ -67,7 +63,37 @@ exports.getSettings = function() {
 						callback(err);
 					});				
 			}
-
-
-		  // callback(result);
 		}
+
+		exports.markDriverAsDeleted = function(objId, callback) {
+			console.log(logPref + 'Deleting driver...');
+
+			// Soft delete
+			Driver.findById(id, 
+				function (err, driver) {
+
+					if (err) {
+						callback(err);
+					} else {
+						driver.update({deleted: true}, callback);
+					}
+
+
+				});
+
+		}
+
+		exports.deleteFromDb = function(objId, callback) {
+			console.log(logPref + 'Deleting driver: ' + objId);
+			Driver.findByIdAndRemove(objId, 
+				function (err) {
+
+					if (err) {
+						callback(err);
+					} else {
+						callback('Driver removed from DB forever.');
+					}
+
+
+				});
+		}		

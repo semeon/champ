@@ -4,6 +4,7 @@ appModule.factory('EditDriverSrvc', ['$rootScope', '$http', '$compile', function
   console.log('EditDriver Servic started');
 
   var driverFormHtml = '';
+
   $http.get('/templates/driverForm').success(function(data) {
     driverFormHtml = data;
     // console.log(data);
@@ -33,6 +34,21 @@ appModule.factory('EditDriverSrvc', ['$rootScope', '$http', '$compile', function
     dialogScope.saveChangesClick = function(formId) {
       console.log(log_ctrl + formId + ' submit click');
       $('#' + formId).submit();
+    }
+
+    dialogScope.deleteDriverClick = function(drvId) {
+      console.log(log_ctrl + 'Delete Driver called');
+      $http({
+          url: '/admin/deleteDriver', 
+          method: "GET",
+          params: {id: drvId}
+       }).success(
+        function(data) {
+          console.log(log_ctrl + 'Deleting result:');
+          console.log(data);
+          location.reload();
+        });
+
     }
 
 
