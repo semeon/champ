@@ -1,6 +1,6 @@
 var logPref = '[Route Admin] ';
 // Database
-var db = require('../modules/database');
+var db = require('../models/driverMdl');
 
 exports.index = function(req, res){
   res.render('admin', 

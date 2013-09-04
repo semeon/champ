@@ -36,3 +36,9 @@ console.log('Env - mongodb url: ' + url);
 exports.url = function() {
 	return url;
 }
+
+exports.initMongoose = function() {
+    var mongoose = require('mongoose');
+    mongoose.connect(url);
+    return mongoose;
+}

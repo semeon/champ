@@ -1,23 +1,21 @@
-var express = require('express');
-var routes = require('./routes');
-var adminRoutes = require('./routes/admin');
-var templates = require('./routes/templates');
-
-var http = require('http');
-var path = require('path');
+var express     = require('express');
+var routes      = require('./server/controllers');
+var adminRoutes = require('./server/controllers/admin');
+var templates   = require('./server/controllers/templates');
+var http        = require('http');
+var path        = require('path');
 
 // AUTH
-	var passport = require('passport');
-	var LocalStrategy = require('passport-local').Strategy;
-
-	var auth = require('./modules/auth');
-	auth.init(passport, LocalStrategy);
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var auth = require('./settings/auth');
+auth.init(passport, LocalStrategy);
 
 // Express
 var app = express();
 app.configure(function() {
 	app.set('port', process.env.PORT || 3000);
-  app.set('views', __dirname + '/views');
+  app.set('views', __dirname + '/server/views');
   app.set('view engine', 'ejs');
   app.engine('ejs', require('ejs-locals'));
 	app.use(express.favicon());
@@ -31,7 +29,7 @@ app.configure(function() {
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(app.router);
-	app.use(express.static(path.join(__dirname, 'public')));
+	app.use(express.static(path.join(__dirname, 'client')));
 });
 
 
@@ -44,14 +42,13 @@ if ('development' == app.get('env')) {
 // Routers - users
 app.get( '/', 			routes.index);
 
-
 // Routers - admin
 app.get( '/admin', 	auth.ensureAuthenticated, adminRoutes.index);
 app.get( '/admin/drivers', 	auth.ensureAuthenticated, adminRoutes.drivers);
 
+// Ajax requests
 app.post( '/admin/saveDriver', 	auth.ensureAuthenticated, adminRoutes.saveDriver);
 app.get(  '/admin/deleteDriver',  auth.ensureAuthenticated, adminRoutes.deleteDriver);
-
 
 // Auth
 app.get( '/login', 	routes.login);
@@ -63,13 +60,6 @@ app.get( '/logout', function(req, res){
 
 // Service
 app.get('/templates/driverForm', 	templates.driverForm);
-
-
-// app.get( '/env', 
-// 	function(req, res){
-// 				var db = require('./modules/database');
-// 			  res.send(db.getSettings());
-// 	});
 
 
 
