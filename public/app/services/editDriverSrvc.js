@@ -30,6 +30,12 @@ appModule.factory('EditDriverSrvc', ['$rootScope', '$http', '$compile', function
      
     }
 
+    dialogScope.saveChangesClick = function(formId) {
+      console.log(log_ctrl + formId + ' submit click');
+      $('#' + formId).submit();
+    }
+
+
     var dialogDom = $compile(driverFormHtml)(dialogScope);
     $(dialogDom).modal();
   }

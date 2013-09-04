@@ -7,15 +7,24 @@
       </div>
       <div class="modal-body">
 
-        <form class="form-horizontal" role="form">
+        <form class="form-horizontal" 
+              role="form" 
+              id="editDriverForm"
+              action="/admin/saveDriver" 
+              method="post">
+
+          <input type="hidden" name="dbId" value="{{driver._id}}"/>    
+
+
           <div class="form-group">
             <label for="driverName" class="col-lg-3 control-label">Уникальный ID *</label>
             <div class="col-lg-9">
               <input type="text" 
                     class="form-control" 
-                    id="driverName"
+                    id="driverId"
+                    name="driverId"
                     value="{{driver.id}}"
-                    placeholder="Имя">
+                    placeholder="Имя"/>
             </div>
           </div>
 
@@ -26,8 +35,9 @@
               <input type="text" 
                     class="form-control" 
                     id="driverName"
+                    name="driverName"
                     value="{{driver.name}}"
-                    placeholder="Имя">
+                    placeholder="Имя"/>
             </div>
           </div>
 
@@ -37,8 +47,9 @@
               <input type="text" 
                       class="form-control" 
                       id="driverNick" 
+                      name="driverNick" 
                       value="{{driver.nick}}"
-                      placeholder="Ник">
+                      placeholder="Ник"/>
             </div>
           </div>
 
@@ -47,9 +58,10 @@
             <div class="col-lg-9">
               <input type="email" 
                       class="form-control" 
-                      id="inputEmail1" 
+                      id="driverEmail"
+                      name="driverEmail" 
                       value="{{driver.email}}"
-                      placeholder="Email">
+                      placeholder="Email"/>
             </div>
           </div>
 
@@ -59,15 +71,16 @@
               <input type="text" 
                       class="form-control" 
                       id="driverPhone" 
+                      name="driverPhone" 
                       value="{{driver.tel}}"
-                      placeholder="Телефон">
+                      placeholder="Телефон"/>
             </div>
           </div>
         </form>
 
       </div>
       <div class="modal-footer">
-        <button disabled="disabled" type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary" ng-click="saveChangesClick('editDriverForm')">Save changes</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>

@@ -41,11 +41,15 @@ if ('development' == app.get('env')) {
 }
 
 
-// Routers
+// Routers - users
 app.get( '/', 			routes.index);
+
+
+// Routers - admin
 app.get( '/admin', 	auth.ensureAuthenticated, adminRoutes.index);
 app.get( '/admin/drivers', 	auth.ensureAuthenticated, adminRoutes.drivers);
 
+app.post( '/admin/saveDriver', 	auth.ensureAuthenticated, adminRoutes.saveDriver);
 
 // Auth
 app.get( '/login', 	routes.login);
@@ -68,6 +72,7 @@ app.get('/templates/driverForm', 	templates.driverForm);
 
 
 // START
+// ---------------------------------------------------------------
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
