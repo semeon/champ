@@ -57,8 +57,7 @@ function driverListCtrl($scope, $rootScope, $http, $compile, EditDriverSrvc) {
 				  saveChanges: {   
 				    label: "Удалить",
 				    className: "btn-danger",
-				    callback: EditDriverSrvc.deleteDriver(driver, 
-				    																			function(){ location.reload(); })
+				    callback: function() {EditDriverSrvc.deleteDriver(driver, function(){ location.reload(); })}
 				  },
 				  cancel: {   
 				    label: "Отменить",

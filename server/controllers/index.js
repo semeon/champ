@@ -17,12 +17,4 @@ exports.login = function(req, res){
   					});
 };
 
-exports.admin = function(req, res){
-  res.render('admin', 
-  					{ title: 'Admin',
-  						mode: 'admin',
-  						page: 'admin',
-  						user: req.user
-  					});
-};
 
