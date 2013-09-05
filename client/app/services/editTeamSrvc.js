@@ -1,22 +1,22 @@
-appModule.factory('EditDriverSrvc', ['$rootScope', '$http', function($rootScope, $http) {
-  var log_ctrl = ' - EditDriverSrvc: ';
+appModule.factory('EditTeamSrvc', ['$rootScope', '$http', function($rootScope, $http) {
+  var log_ctrl = ' - EditTeamSrvc: ';
   console.log('');
-  console.log('EditDriver Service started');
+  console.log('EditTeam Service started');
 
-  var editDriverService = {};
+  var editTeamService = {};
 
   editDriverService.getEditFormTemplate = function(callback) {
-    $http.get('/app/views/driver_edit_form.html').success(function(html) {
+    $http.get('/app/views/team_edit_form.html').success(function(html) {
                                                 callback(html)
                                                });
   }
 
-  editDriverService.deleteDriver = function(driver, callback) {
+  editDriverService.deleteTeam = function(team, callback) {
     console.log(log_ctrl + 'Delete Driver called');
     $http({
-      url: '/admin/deleteDriver', 
+      url: '/admin/deleteTeam', 
       method: "GET",
-      params: {id: driver._id}
+      params: {id: team._id}
     }).success(
     function(data) {
       console.log(log_ctrl + 'Deleting result:');

@@ -6,9 +6,9 @@ var path        = require('path');
 // Controllers
 var routes      = require('./server/controllers');
 var adminRoutes = require('./server/controllers/admin');
-var templates   = require('./server/controllers/templates');
 
-var driverCtrl = require('./server/controllers/driverCtrl');
+var driverCtrl = 	require('./server/controllers/driverCtrl');
+var teamCtrl 	= require('./server/controllers/teamCtrl');
 
 
 // AUTH
@@ -55,6 +55,11 @@ app.get( '/admin', 	auth.ensureAuthenticated, adminRoutes.index);
 app.get( '/admin/drivers', 			auth.ensureAuthenticated, driverCtrl.driverList);
 app.post('/admin/saveDriver', 	auth.ensureAuthenticated, driverCtrl.saveDriver);
 app.get( '/admin/deleteDriver', auth.ensureAuthenticated, driverCtrl.deleteDriver);
+
+// Teams
+app.get( '/admin/teams', 			auth.ensureAuthenticated, teamCtrl.teamList);
+app.post('/admin/saveTeam', 	auth.ensureAuthenticated, teamCtrl.saveTeam);
+
 
 
 // Auth

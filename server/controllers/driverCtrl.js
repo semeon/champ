@@ -1,8 +1,8 @@
 var logPref = '[Driver Ctrl] ';
 
 // Model
-var driverMdl = require('../models/driverMdl');
-
+var dataMdl = require('../models/dataMdl');
+var Driver = dataMdl.getModel('Driver');
 
 // Page Renderers
 exports.driverList = function(req, res){
@@ -14,7 +14,7 @@ exports.driverList = function(req, res){
                    data: drivers
                 });
   }
-  driverMdl.getDrivers(renderer);
+  dataMdl.getItemList(Driver, renderer);
 };
 
 // Post request
@@ -38,7 +38,7 @@ exports.saveDriver = function(req, res){
     res.redirect('/admin/drivers');
   }
 
-  driverMdl.saveDriver(objId, driver, callback);
+  dataMdl.saveItem(Driver, objId, driver, callback);
 };
 
 // AJAX get request
@@ -55,6 +55,6 @@ exports.deleteDriver = function(req, res){
     res.send(result);
   }
 
-  // driverMdl.markDriverAsDeleted(objId, callback);
-  driverMdl.deleteFromDb(objId, callback);
+  // dataMdl.markItemAsDeleted(Driver, objId, callback);
+  dataMdl.deleteItemFromDb(Driver, objId, callback);
 };

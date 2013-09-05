@@ -1,3 +1,19 @@
 .modal-dialog {
 	width: 60%;
 }
+
+.hover {
+
+	display: none;
+
+}
+
+tr {
+	height: 34px;
+}
+
+tr:hover > td > .hover {
+
+	display: block;
+
+}

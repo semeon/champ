@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+	<% include ../_header.ejs %> 
+  <body>
+		<!-- PAGE: <%= page %> -->
+		<% include ../_admin_navbar.ejs %> 
+
+		<div class="container">
+
+			<div class="row">
+			  <div 	class="col-md-6 col-md-offset-3" 
+			  			ng-controller="teamListCtrl" 
+			  			ng-init='init( <%-JSON.stringify(data)%> )'>
+			  	<button type="button" class="btn btn-primary btn-sm pull-right"
+			  					ng-click="addTeamClick()">
+			  		<i class="icon-plus"></i> Добавить
+			  	</button>
+				  <h2>Команды</h2>
+					<table ng-show="teams.length" class="table table-condensed table-hover table-striped">
+						<thead>
+							<tr>
+								<th>Название</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="team in teams">
+								<td>{{team.name}}</td>
+								<td width="100px;">
+									<div class="btn-group btn-group-xs pull-right hover">
+									  <button type="button" class="btn btn-primary" ng-click="editTeamClick(team)"><i class="icon-edit"></i></button>
+									  <button type="button" class="btn btn-danger" ng-click="deleteTeamClick(team)"><i class="icon-trash"></i></button>
+									</div>						
+								</td>
+							</tr>
+						</tbody>
+					</table>  	
+					<div ng-hide="teams.length" class="alert alert-info">
+						<strong>Нет данных.</strong> Возможно следует <a href="" ng-click="addTeamClick()">добавить команду</a>?
+					</div>
+			  </div>
+			</div>
+
+		</div> <!-- Container -->
+  </body>
+</html>
+
+
+
+

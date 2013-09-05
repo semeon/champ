@@ -1,15 +1,15 @@
-function driverListCtrl($scope, $rootScope, $compile, EditDataSrvc) {
-    var log_ctrl = ' - driverListCtrl: ';
+function teamListCtrl($scope, $rootScope, $compile, EditDataSrvc) {
+    var log_ctrl = ' - teamListCtrl: ';
     console.log('');
-    console.log('driverListCtrl Controller started');
+    console.log('teamListCtrl Controller started');
 
-    var showEditDialog = function(driver) {
+    var showEditDialog = function(team) {
 	    var dialogScope = $rootScope.$new(true);
-	    if (driver) {
-	      dialogScope.driver = driver;
-	      dialogScope.title = 'Изменить данные пилота: ' + driver.name;
+	    if (team) {
+	      dialogScope.team = team;
+	      dialogScope.title = 'Изменить данные пилота: ' + team.name;
 	    } else {
-	      dialogScope.driver = {};
+	      dialogScope.team = {};
 	      dialogScope.title = 'Добавить пилота';
 	    }
 
@@ -22,31 +22,30 @@ function driverListCtrl($scope, $rootScope, $compile, EditDataSrvc) {
 				$(dialogDom).modal();
 	    }
 
-			EditDataSrvc.getEditFormTemplate('driver', openDialog);
+			EditDataSrvc.getEditFormTemplate('team', openDialog);
 	  }
-
 
 		$scope.init = function(data) {
 			console.log(log_ctrl + 'init()');
-			$scope.drivers = data;
+			$scope.teams = data;
 		};
 
-		$scope.editDriverClick = function (driver) {
-			showEditDialog(driver);
+		$scope.editTeamClick = function (team) {
+			showEditDialog(team);
 		}
 
-		$scope.addDriverClick = function () {
+		$scope.addTeamClick = function () {
 			showEditDialog();
 		}
 
-		$scope.deleteDriverClick = function (driver) {
+		$scope.deleteTeamClick = function (team) {
 
 			bootbox.dialog({
 				message: '<h4 class="text-danger"><i class="icon-warning-sign"></i> Внимание!</h4>' +
-						 '<p class="text-dangers"> Вы собираетесь удалить пилота ' + 
-						  driver.name + 
+						 '<p class="text-dangers"> Вы собираетесь удалить команду ' + 
+						  team.name + 
 						  '. Эту опрерацию невозможно отменить.</p>',
-				title: "Удаление пилота " + driver.name,
+				title: "Удаление команды " + team.name,
 				onEscape: function() {},
 				show: true,
 				backdrop: true,
@@ -57,7 +56,7 @@ function driverListCtrl($scope, $rootScope, $compile, EditDataSrvc) {
 				  saveChanges: {   
 				    label: "Удалить",
 				    className: "btn-danger",
-				    callback: function() {EditDataSrvc.deleteItem('driver', driver, function(){ location.reload(); })}
+				    callback: function() {EditDataSrvc.deleteItem('team', team, function(){ location.reload(); })}
 				  },
 				  cancel: {   
 				    label: "Отменить",
