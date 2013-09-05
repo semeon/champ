@@ -1,18 +1,12 @@
-appModule.factory('EditDriverSrvc', ['$rootScope', '$http', '$compile', function($rootScope, $http, $compile) {
+appModule.factory('EditDriverSrvc', ['$rootScope', '$http', function($rootScope, $http) {
   var log_ctrl = ' - EditDriverSrvc: ';
   console.log('');
   console.log('EditDriver Servic started');
 
-  var driverFormHtml = '';
-  $http.get('/templates/driverForm').success(function(data) {
-    driverFormHtml = data;
-    // console.log(data);
-  });
-
   var editDriverService = {};
 
   editDriverService.getEditFormTemplate = function(callback) {
-    $http.get('/templates/driverForm').success(function(driverFormHtml) {
+    $http.get('/app/views/driver_edit_form.html').success(function(driverFormHtml) {
                                                 callback(driverFormHtml)
                                                });
   }

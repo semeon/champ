@@ -1,9 +1,15 @@
 var express     = require('express');
+var http        = require('http');
+var path        = require('path');
+
+
+// Controllers
 var routes      = require('./server/controllers');
 var adminRoutes = require('./server/controllers/admin');
 var templates   = require('./server/controllers/templates');
-var http        = require('http');
-var path        = require('path');
+
+var driverCtrl = require('./server/controllers/driverCtrl');
+
 
 // AUTH
 var passport = require('passport');
@@ -44,11 +50,12 @@ app.get( '/', 			routes.index);
 
 // Routers - admin
 app.get( '/admin', 	auth.ensureAuthenticated, adminRoutes.index);
-app.get( '/admin/drivers', 	auth.ensureAuthenticated, adminRoutes.drivers);
 
-// Ajax requests
-app.post( '/admin/saveDriver', 	auth.ensureAuthenticated, adminRoutes.saveDriver);
-app.get(  '/admin/deleteDriver',  auth.ensureAuthenticated, adminRoutes.deleteDriver);
+// Drivers
+app.get( '/admin/drivers', 			auth.ensureAuthenticated, driverCtrl.driverList);
+app.post('/admin/saveDriver', 	auth.ensureAuthenticated, driverCtrl.saveDriver);
+app.get( '/admin/deleteDriver', auth.ensureAuthenticated, driverCtrl.deleteDriver);
+
 
 // Auth
 app.get( '/login', 	routes.login);
@@ -57,10 +64,6 @@ app.get( '/logout', function(req, res){
 										  req.logout();
 										  res.redirect('/');
 										});
-
-// Service
-app.get('/templates/driverForm', 	templates.driverForm);
-
 
 
 // START
