@@ -1,7 +1,29 @@
-function driverListCtrl($scope, $http, EditDriverSrvc) {
+function driverListCtrl($scope, $rootScope, $http, $compile, EditDriverSrvc) {
     var log_ctrl = ' - driverListCtrl: ';
     console.log('');
     console.log('driverListCtrl Controller started');
+
+    var showEditDialog = function(driver) {
+	    var dialogScope = $rootScope.$new(true);
+	    if (driver) {
+	      dialogScope.driver = driver;
+	      dialogScope.title = 'Изменить данные пилота: ' + driver.name;
+	    } else {
+	      dialogScope.driver = {};
+	      dialogScope.title = 'Добавить пилота';
+	    }
+
+	    dialogScope.saveChangesClick = function(formId) {
+	      $('#' + formId).submit();
+	    }
+
+	    var openDialog = function(driverFormHtml) {
+				var dialogDom = $compile(driverFormHtml)(dialogScope);
+				$(dialogDom).modal();
+	    }
+
+			EditDriverSrvc.getEditFormTemplate(openDialog);
+	  }
 
 
 		$scope.init = function(data) {
@@ -10,11 +32,11 @@ function driverListCtrl($scope, $http, EditDriverSrvc) {
 		};
 
 		$scope.editDriverClick = function (driver) {
-			EditDriverSrvc.showDialog(driver);
+			showEditDialog(driver);
 		}
 
 		$scope.addDriverClick = function () {
-			EditDriverSrvc.showDialog();
+			showEditDialog();
 		}
 
 		$scope.deleteDriverClick = function (driver) {
@@ -35,19 +57,8 @@ function driverListCtrl($scope, $http, EditDriverSrvc) {
 				  saveChanges: {   
 				    label: "Удалить",
 				    className: "btn-danger",
-				    callback: function() {
-						console.log(log_ctrl + 'Delete Driver called');
-						$http({
-						  url: '/admin/deleteDriver', 
-						  method: "GET",
-						  params: {id: driver._id}
-						}).success(
-						function(data) {
-						  console.log(log_ctrl + 'Deleting result:');
-						  console.log(data);
-						  location.reload();
-						});
-				    }
+				    callback: EditDriverSrvc.deleteDriver(driver, 
+				    																			function(){ location.reload(); })
 				  },
 				  cancel: {   
 				    label: "Отменить",
