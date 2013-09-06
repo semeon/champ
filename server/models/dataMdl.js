@@ -22,6 +22,11 @@ var seasonSchema = mongoose.Schema({type: String,
 																		completed: Boolean, 
 																		deleted: Boolean});
 
+var rulesSchema = mongoose.Schema({	type: String,
+																		name: String, 
+																		season_id: String, 
+																		deleted: Boolean});
+
 var raceSchema = mongoose.Schema({type: String,
 																	name: String, 
 																	date: String, 
@@ -37,8 +42,9 @@ var resultSchema = mongoose.Schema({type: String,
 var modelMap = {};
 modelMap['drivers'] 	= mongoose.model('drivers', driverSchema);
 modelMap['teams'] 		= mongoose.model('teams', teamSchema);
-modelMap['seasons'] 	= mongoose.model('seasons', teamSchema);
-
+modelMap['seasons'] 	= mongoose.model('seasons', seasonSchema);
+modelMap['rules'] 	= mongoose.model('rules', rulesSchema);
+modelMap['races'] 	= mongoose.model('races', raceSchema);
 
 exports.getModel = function(modelName) {
 	console.log(logPref + 'modelName requested: ' + modelName);
