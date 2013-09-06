@@ -1,0 +1,40 @@
+<div class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">{{title}}</h4>
+      </div>
+      <div class="modal-body">
+
+        <form class="form-horizontal" 
+              role="form" 
+              id="editSeasonForm"
+              action="/admin/saveSeason" 
+              method="post">
+
+          <input type="hidden" name="dbId" value="{{season._id}}"/>    
+
+
+          <div class="form-group">
+            <label for="seasonName" class="col-lg-3 control-label">Название</label>
+            <div class="col-lg-9">
+              <input type="text" 
+                    class="form-control" 
+                    id="seasonName"
+                    name="seasonName"
+                    value="{{season.name}}"
+                    placeholder="Название сезона"/>
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="saveChangesClick('editSeasonForm')">Сохранить изменения</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Отменить</button>
+      </div>
+    </div>
+  </div>
+</div>

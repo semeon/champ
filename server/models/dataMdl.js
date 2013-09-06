@@ -6,34 +6,54 @@ var mongoose = dbEnv.initMongoose();
 
 // Models
 // ------------------------------------
-var driverSchema = mongoose.Schema({name: String, nick: String, email: String, tel: String, deleted: Boolean});
-var Driver = mongoose.model('Driver', driverSchema);
+var driverSchema = mongoose.Schema({name: String, 
+																		nick: String, 
+																		email: String, 
+																		tel: String, 
+																		deleted: Boolean});
 
-var teamSchema = mongoose.Schema({name: String, deleted: Boolean});
-var Team = mongoose.model('Team', teamSchema);
+var teamSchema = mongoose.Schema({name: String, 
+																	deleted: Boolean});
+
+var seasonSchema = mongoose.Schema({name: String, 
+																		completed: Boolean, 
+																		deleted: Boolean});
+
+var raceSchema = mongoose.Schema({name: String, 
+																	date: String, 
+																	season_id: String, 
+																	deleted: Boolean});
+
+var resultSchema = mongoose.Schema({name: String, 
+																		date: String, 
+																		race_id: String, 
+																		deleted: Boolean});
+
+// var Driver = mongoose.model('Driver', driverSchema);
+// var Team = mongoose.model('Team', teamSchema);
+
+var modelMap = {};
+modelMap['Driver'] 	= mongoose.model('Driver', driverSchema);
+modelMap['Team'] 		= mongoose.model('Team', teamSchema);
+modelMap['Season'] 	= mongoose.model('Season', teamSchema);
 
 
 exports.getModel = function(modelName) {
 	console.log(logPref + 'modelName requested: ' + modelName);
-	var model = {};
-	if (modelName == 'Driver') {
-		console.log(logPref + 'modelName: ' + Driver.modelName);
-		// console.log(Driver);
-		return Driver;
-
-	} else if (modelName == 'Team') {
-		console.log(logPref + 'modelName: ' + Team.modelName);
-		// console.log(Team);
-		return Team;
+	if ( modelMap[modelName] ) {
+		return modelMap[modelName];
+	} else {
+		return false;
 	}
+
 }
 
 // Methods
 // ------------------------------------
 exports.getItemList = function(Model, callback) {
 
-	var result = [];
-  console.log(logPref + 'Requesting items of ' + Model.modelName);
+  console.log(logPref + 'Requesting items of collection ' + Model.modelName);
+	// console.log(Model);
 
 	Model.find(function (err, result) {
 	  if (err) {

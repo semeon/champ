@@ -5,7 +5,8 @@ var dataMdl = require('../models/dataMdl');
 var Team = dataMdl.getModel('Team');
 
 // Page Renderers
-exports.teamList = function(req, res){
+exports.getList = function(req, res){
+  console.log(logPref + 'teamList requested:' + Team.modelName);
   var renderer = function(teams) {
     res.render( 'admin/team_list', 
                 { title: 'Admin: Teams',
@@ -14,15 +15,11 @@ exports.teamList = function(req, res){
                    data: teams
                 });
   }
-
-  console.log(logPref + 'Model:' + Team.modelName);
-
-
   dataMdl.getItemList(Team, renderer);
 };
 
 // Post request
-exports.saveTeam = function(req, res){
+exports.save = function(req, res){
   console.log(logPref + 'Processing save team request:');
   console.log(req.body);
 
@@ -43,7 +40,7 @@ exports.saveTeam = function(req, res){
 };
 
 // AJAX get request
-exports.deleteTeam = function(req, res){
+exports.delete = function(req, res){
   console.log(logPref + 'Processing delete team request:');
   console.log(req.query);
 

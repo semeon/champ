@@ -5,8 +5,9 @@ var dataMdl = require('../models/dataMdl');
 var Driver = dataMdl.getModel('Driver');
 
 // Page Renderers
-exports.driverList = function(req, res){
+exports.getList = function(req, res){
   var renderer = function(drivers) {
+
     res.render( 'admin/driver_list', 
                 { title: 'Admin: Drivers',
                    page: 'drivers',
@@ -14,11 +15,12 @@ exports.driverList = function(req, res){
                    data: drivers
                 });
   }
+  console.log(logPref + 'Model: ' + Driver.modelName);
   dataMdl.getItemList(Driver, renderer);
 };
 
 // Post request
-exports.saveDriver = function(req, res){
+exports.save = function(req, res){
   console.log(logPref + 'Processing save driver request:');
   console.log(req.body);
 
@@ -42,7 +44,7 @@ exports.saveDriver = function(req, res){
 };
 
 // AJAX get request
-exports.deleteDriver = function(req, res){
+exports.delete = function(req, res){
   console.log(logPref + 'Processing delete driver request:');
   console.log(req.query);
 
