@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+	<% include ../_header.ejs %> 
+  <body>
+		<!-- PAGE: <%= page %> -->
+		<% include ../_admin_navbar.ejs %> 
+
+		<div class="container">
+
+			<div class="row">
+			  <div 	class="col-md-8 col-md-offset-2" 
+			  			ng-controller="itemListCtrl" 
+			  			ng-init='init( <%-JSON.stringify(data)%> , "<%= page %>" )'>
+			  	<button type="button" class="btn btn-primary btn-sm pull-right"
+			  					ng-click="addButtonClick()">
+			  		<i class="icon-plus"></i> Добавить
+			  	</button>
+
+			  	<h2><%= title %></h2>
+
+			  	<% if ( page == 'drivers') {%>
+				  	<% include _drivers.ejs %>
+					<% } else if ( page == 'teams') {%>				  	
+				  	<% include _teams.ejs %>
+					<% } else if ( page == 'seasons') {%>				  	
+				  	<% include _seasons.ejs %>
+					<% } %> 
+
+					<div ng-hide="items.length" class="alert alert-info">
+						<strong>Нет данных.</strong> Возможно следует 
+						<a href="" ng-click="addButtonClick()">добавить запись</a>?
+					</div>
+			  </div>
+			</div>
+
+		</div> <!-- Container -->
+  </body>
+</html>
+
+
+
+

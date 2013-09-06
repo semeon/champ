@@ -1,15 +1,16 @@
-function driverListCtrl($scope, $rootScope, $compile, EditDataSrvc) {
-    var log_ctrl = ' - driverListCtrl: ';
+function itemListCtrl($scope, $rootScope, $compile, EditDataSrvc) {
+    var log_ctrl = ' - itemListCtrl: ';
     console.log('');
-    console.log('driverListCtrl Controller started');
+    console.log('itemListCtrl Controller started');
+    $scope.dataType = '';
 
-    var showEditDialog = function(driver) {
+    var showEditDialog = function(item) {
 	    var dialogScope = $rootScope.$new(true);
-	    if (driver) {
-	      dialogScope.driver = driver;
-	      dialogScope.title = 'Изменить данные пилота: ' + driver.name;
+	    if (item) {
+	      dialogScope.item = item;
+	      dialogScope.title = 'Изменить данные пилота: ' + item.name;
 	    } else {
-	      dialogScope.driver = {};
+	      dialogScope.item = {};
 	      dialogScope.title = 'Добавить пилота';
 	    }
 
@@ -22,31 +23,31 @@ function driverListCtrl($scope, $rootScope, $compile, EditDataSrvc) {
 				$(dialogDom).modal();
 	    }
 
-			EditDataSrvc.getEditFormTemplate('driver', openDialog);
+			EditDataSrvc.getEditFormTemplate($scope.dataType, openDialog);
 	  }
 
-
-		$scope.init = function(data) {
+		$scope.init = function(data, type) {
 			console.log(log_ctrl + 'init()');
-			$scope.drivers = data;
+			$scope.items = data;
+			$scope.dataType = String(type).toLowerCase(); 
 		};
 
-		$scope.editDriverClick = function (driver) {
-			showEditDialog(driver);
+		$scope.editButtonClick = function (item) {
+			showEditDialog(item);
 		}
 
-		$scope.addDriverClick = function () {
+		$scope.addButtonClick = function () {
 			showEditDialog();
 		}
 
-		$scope.deleteDriverClick = function (driver) {
+		$scope.deleteButtonClick = function (item) {
 
 			bootbox.dialog({
 				message: '<h4 class="text-danger"><i class="icon-warning-sign"></i> Внимание!</h4>' +
-						 '<p class="text-dangers"> Вы собираетесь удалить пилота ' + 
-						  driver.name + 
+						 '<p class="text-dangers"> Вы собираетесь запись: ' + 
+						  item.name + 
 						  '. Эту опрерацию невозможно отменить.</p>',
-				title: "Удаление пилота " + driver.name,
+				title: "Удаление записи " + item.name,
 				onEscape: function() {},
 				show: true,
 				backdrop: true,
@@ -57,7 +58,7 @@ function driverListCtrl($scope, $rootScope, $compile, EditDataSrvc) {
 				  saveChanges: {   
 				    label: "Удалить",
 				    className: "btn-danger",
-				    callback: function() {EditDataSrvc.deleteItem('driver', driver, function(){ location.reload(); })}
+				    callback: function() {EditDataSrvc.deleteItem($scope.dataType, item, function(){ location.reload(); })}
 				  },
 				  cancel: {   
 				    label: "Отменить",

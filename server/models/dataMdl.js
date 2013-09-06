@@ -6,36 +6,38 @@ var mongoose = dbEnv.initMongoose();
 
 // Models
 // ------------------------------------
-var driverSchema = mongoose.Schema({name: String, 
+var driverSchema = mongoose.Schema({type: String,
+																		name: String, 
 																		nick: String, 
 																		email: String, 
 																		tel: String, 
 																		deleted: Boolean});
 
-var teamSchema = mongoose.Schema({name: String, 
+var teamSchema = mongoose.Schema({type: String,
+																	name: String, 
 																	deleted: Boolean});
 
-var seasonSchema = mongoose.Schema({name: String, 
+var seasonSchema = mongoose.Schema({type: String,
+																		name: String, 
 																		completed: Boolean, 
 																		deleted: Boolean});
 
-var raceSchema = mongoose.Schema({name: String, 
+var raceSchema = mongoose.Schema({type: String,
+																	name: String, 
 																	date: String, 
 																	season_id: String, 
 																	deleted: Boolean});
 
-var resultSchema = mongoose.Schema({name: String, 
+var resultSchema = mongoose.Schema({type: String,
+																		name: String, 
 																		date: String, 
 																		race_id: String, 
 																		deleted: Boolean});
 
-// var Driver = mongoose.model('Driver', driverSchema);
-// var Team = mongoose.model('Team', teamSchema);
-
 var modelMap = {};
-modelMap['Driver'] 	= mongoose.model('Driver', driverSchema);
-modelMap['Team'] 		= mongoose.model('Team', teamSchema);
-modelMap['Season'] 	= mongoose.model('Season', teamSchema);
+modelMap['drivers'] 	= mongoose.model('drivers', driverSchema);
+modelMap['teams'] 		= mongoose.model('teams', teamSchema);
+modelMap['seasons'] 	= mongoose.model('seasons', teamSchema);
 
 
 exports.getModel = function(modelName) {
@@ -70,13 +72,12 @@ exports.getItemList = function(Model, callback) {
 exports.saveItem = function(Model, objId, obj, callback) {
 	console.log(logPref + Model.modelName + ' - Saving obj to DB');
 
-	obj.deleted = false;
-
 	if (objId) {
 	// Update existing
 		Model.findByIdAndUpdate(objId, obj, callback)
 	} else {
 	// Create new
+		obj.deleted = false;
 		var newItem = new Model(obj);
 
 		newItem.save(

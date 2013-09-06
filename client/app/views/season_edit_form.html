@@ -9,11 +9,11 @@
 
         <form class="form-horizontal" 
               role="form" 
-              id="editSeasonForm"
-              action="/admin/saveSeason" 
+              id="form"
+              action="/admin/seasons/save" 
               method="post">
 
-          <input type="hidden" name="dbId" value="{{season._id}}"/>    
+          <input type="hidden" name="dbId" value="{{item._id}}"/>    
 
 
           <div class="form-group">
@@ -22,8 +22,8 @@
               <input type="text" 
                     class="form-control" 
                     id="seasonName"
-                    name="seasonName"
-                    value="{{season.name}}"
+                    name="name"
+                    value="{{item.name}}"
                     placeholder="Название сезона"/>
             </div>
           </div>
@@ -32,7 +32,7 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" ng-click="saveChangesClick('editSeasonForm')">Сохранить изменения</button>
+        <button type="button" class="btn btn-primary" ng-click="saveChangesClick('form')">Сохранить изменения</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Отменить</button>
       </div>
     </div>

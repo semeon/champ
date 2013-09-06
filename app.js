@@ -6,10 +6,7 @@ var path        = require('path');
 // Controllers
 var routes      = require('./server/controllers');
 var adminRoutes = require('./server/controllers/admin');
-
-var driverCtrl = 	require('./server/controllers/driverCtrl');
-var teamCtrl 	= require('./server/controllers/teamCtrl');
-var seasonCtrl 	= require('./server/controllers/seasonCtrl');
+var dataCtrl = 	require('./server/controllers/dataCtrl');
 
 
 // AUTH
@@ -49,21 +46,9 @@ if ('development' == app.get('env')) {
 app.get( '/', 			routes.index);
 app.get( '/admin', 	auth.ensureAuthenticated, adminRoutes.index);
 
-// Drivers
-app.get( '/admin/drivers', 			auth.ensureAuthenticated, driverCtrl.getList);
-app.post('/admin/saveDriver', 	auth.ensureAuthenticated, driverCtrl.save);
-app.get( '/admin/deleteDriver', auth.ensureAuthenticated, driverCtrl.delete);
-
-// Teams
-app.get( '/admin/teams', 				auth.ensureAuthenticated, teamCtrl.getList);
-app.post('/admin/saveTeam', 		auth.ensureAuthenticated, teamCtrl.save);
-app.get( '/admin/deleteTeam', 	auth.ensureAuthenticated, teamCtrl.delete);
-
-// Seasons
-app.get( '/admin/seasons', 			auth.ensureAuthenticated, seasonCtrl.getList);
-app.post('/admin/saveSeason', 		auth.ensureAuthenticated, seasonCtrl.save);
-app.get( '/admin/deleteSeason', 	auth.ensureAuthenticated, seasonCtrl.delete);
-
+app.get( '/admin/:dataType', 			auth.ensureAuthenticated, dataCtrl.getList);
+app.post('/admin/:dataType/save', 	auth.ensureAuthenticated, dataCtrl.save);
+app.get( '/admin/:dataType/delete', 	auth.ensureAuthenticated, dataCtrl.del);
 
 
 // Auth

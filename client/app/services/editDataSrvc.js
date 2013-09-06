@@ -1,18 +1,17 @@
-appModule.factory('EditDataSrvc', ['$rootScope', '$http', function($rootScope, $http) {
+appModule.factory('EditDataSrvc', ['$http', function($http) {
   var log_ctrl = ' - EditDataSrvc: ';
   console.log('');
   console.log('EditDataSrvc started');
 
   var editFormUrls = {};
-  editFormUrls['driver'] = '/app/views/driver_edit_form.html'
-  editFormUrls['team'] = '/app/views/team_edit_form.html'
-  editFormUrls['season'] = '/app/views/season_edit_form.html'
+  editFormUrls['drivers'] = '/app/views/driver_edit_form.html';
+  editFormUrls['teams']  = '/app/views/team_edit_form.html';
+  editFormUrls['seasons'] = '/app/views/season_edit_form.html';
 
   var deleteUrls = {};
-  deleteUrls['driver'] = '/admin/deleteDriver'
-  deleteUrls['team'] = '/admin/deleteTeam'
-  deleteUrls['season'] = '/admin/deleteSeason'
-
+  deleteUrls['drivers'] = '/admin/drivers/delete';
+  deleteUrls['teams'] = '/admin/teams/delete';
+  deleteUrls['seasons'] = '/admin/seasons/delete';
 
   var editDataSrvc = {};
 
@@ -23,11 +22,13 @@ appModule.factory('EditDataSrvc', ['$rootScope', '$http', function($rootScope, $
                           });
   }
 
-
   editDataSrvc.deleteItem = function(dataType, obj, callback) {
-
     var url = deleteUrls[dataType];
 
+    if (!url) {
+      console.error(log_ctrl + 'Error: cannot find delete url URL for dataType ' + dataType);
+      return;
+    }
     console.log(log_ctrl + 'Delete called for ' + dataType);
     $http({
       url: url, 

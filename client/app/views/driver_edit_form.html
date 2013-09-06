@@ -9,11 +9,11 @@
 
         <form class="form-horizontal" 
               role="form" 
-              id="editDriverForm"
-              action="/admin/saveDriver" 
+              id="form"
+              action="/admin/drivers/save" 
               method="post">
 
-          <input type="hidden" name="dbId" value="{{driver._id}}"/>    
+          <input type="hidden" name="dbId" value="{{item._id}}"/>    
 
 
           <div class="form-group">
@@ -22,8 +22,8 @@
               <input type="text" 
                     class="form-control" 
                     id="driverName"
-                    name="driverName"
-                    value="{{driver.name}}"
+                    name="name"
+                    value="{{item.name}}"
                     placeholder="Имя"/>
             </div>
           </div>
@@ -34,8 +34,8 @@
               <input type="text" 
                       class="form-control" 
                       id="driverNick" 
-                      name="driverNick" 
-                      value="{{driver.nick}}"
+                      name="nick" 
+                      value="{{item.nick}}"
                       placeholder="Ник"/>
             </div>
           </div>
@@ -46,8 +46,8 @@
               <input type="email" 
                       class="form-control" 
                       id="driverEmail"
-                      name="driverEmail" 
-                      value="{{driver.email}}"
+                      name="email" 
+                      value="{{item.email}}"
                       placeholder="Email"/>
             </div>
           </div>
@@ -58,8 +58,8 @@
               <input type="text" 
                       class="form-control" 
                       id="driverPhone" 
-                      name="driverPhone" 
-                      value="{{driver.tel}}"
+                      name="tel" 
+                      value="{{item.tel}}"
                       placeholder="Телефон"/>
             </div>
           </div>
@@ -67,7 +67,7 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" ng-click="saveChangesClick('editDriverForm')">Сохранить изменения</button>
+        <button type="button" class="btn btn-primary" ng-click="saveChangesClick('form')">Сохранить изменения</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Отменить</button>
       </div>
     </div>

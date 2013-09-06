@@ -9,11 +9,11 @@
 
         <form class="form-horizontal" 
               role="form" 
-              id="editTeamForm"
-              action="/admin/saveTeam" 
+              id="form"
+              action="/admin/teams/save" 
               method="post">
 
-          <input type="hidden" name="dbId" value="{{team._id}}"/>    
+          <input type="hidden" name="dbId" value="{{item._id}}"/>    
 
 
           <div class="form-group">
@@ -23,7 +23,7 @@
                     class="form-control" 
                     id="teamName"
                     name="teamName"
-                    value="{{team.name}}"
+                    value="{{item.name}}"
                     placeholder="Название"/>
             </div>
           </div>
@@ -32,7 +32,7 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" ng-click="saveChangesClick('editTeamForm')">Сохранить изменения</button>
+        <button type="button" class="btn btn-primary" ng-click="saveChangesClick('form')">Сохранить изменения</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Отменить</button>
       </div>
     </div>
