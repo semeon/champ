@@ -59,14 +59,38 @@ exports.getModel = function(modelName) {
 
 // Methods
 // ------------------------------------
-exports.getItemList = function(Model, callback) {
+exports.getItemList = function(Model, query, callback) {
+  console.log(logPref + 'Requesting items of collection ' + Model.modelName);
 
-	var self = this;
+	var findExecuted = function (err, result) {
+	  if (err) {
+	  	console.log(logPref + 'Could not find data in DB. Error: ');
+	  	console.log(err);
 
+	  } else {
+			console.log(logPref + Model.modelName + ' items found:');
+			console.log(result);
+			callback(result);
+	  }
+	}
+
+	if (query) {
+		console.log(logPref + 'Find with query:');
+		console.log(query);
+
+		Model.find(query, findExecuted);
+	} else {
+		console.log(logPref + 'Find without query.');
+
+		Model.find(findExecuted);
+	}
+
+}
+
+exports.getItem = function(Model, id, callback) {
   console.log(logPref + 'Requesting items of collection ' + Model.modelName);
 	// console.log(Model);
-
-	Model.find(function (err, result) {
+	Model.findById(id, function (err, result) {
 	  if (err) {
 	  	console.log(logPref + 'Could not find data in DB.');
 	  } else {

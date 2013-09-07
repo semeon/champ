@@ -12,7 +12,7 @@ function itemListCtrl($scope, $rootScope, $compile, EditDataSrvc, GetDataSrvc) {
 				$scope.requiredData = {};
 
 				if ($scope.dataType == 'races') {
-					loadCollection('seasons');
+					// loadCollection('seasons');
 				}
 			};
 
@@ -100,7 +100,7 @@ function itemListCtrl($scope, $rootScope, $compile, EditDataSrvc, GetDataSrvc) {
 			}
 
 			function loadCollection(dataType) {
-				GetDataSrvc.loadCollection(dataType, function(data) {
+				GetDataSrvc.loadItems(dataType, {}, function(data) {
 						$scope.requiredData[dataType] = data;
 				})
 			}
