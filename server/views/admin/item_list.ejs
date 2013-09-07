@@ -24,7 +24,9 @@
 				  	<% include _teams.ejs %>
 					<% } else if ( page == 'seasons') {%>				  	
 				  	<% include _seasons.ejs %>
-					<% } %> 
+					<% } else if ( page == 'races') {%>				  	
+				  	<% include _races.ejs %>
+					<% } %> 					
 
 					<div ng-hide="items.length" class="alert alert-info">
 						<strong>Нет данных.</strong> Возможно следует 

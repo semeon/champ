@@ -1,0 +1,20 @@
+<table ng-show="items.length" class="table table-condensed table-hover table-striped">
+	<thead>
+		<tr>
+			<th>Название</th>
+			<th>Дата</th>
+			<th>Трасса</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="item in items">
+			<td>{{item.name}}</td>
+			<td>{{item.date}}</td>
+			<td>{{item.place}}</td>
+			<td width="100px;">
+				<% include __item_controls.ejs %>
+			</td>
+		</tr>
+	</tbody>
+</table>

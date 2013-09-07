@@ -9,6 +9,8 @@ var pageTitles = {};
 pageTitles['drivers'] = 'Пилоты';
 pageTitles['teams'] = 'Команды';
 pageTitles['seasons'] = 'Сезоны';
+pageTitles['rules'] = 'Схемы начисления';
+pageTitles['races'] = 'Этапы';
 
 // Data type mapping
 function getDataType (urlParam) {
@@ -27,9 +29,8 @@ function createDataItem (body) {
 }
 
 
-
 // Page Renderers
-exports.getList = function(req, res) {
+exports.showItemsPage = function(req, res) {
   var dataType = getDataType(req.params.dataType);
   console.log(logPref + dataType);
   var renderer = function(data) {
@@ -84,7 +85,58 @@ exports.save = function(req, res){
 
 };
 
+
+// Post request
+exports.save = function(req, res){
+  var dataType = getDataType(req.params.dataType);
+  console.log(logPref + dataType);
+
+  console.log(logPref + 'Processing save request:');
+  console.log(req.body);
+
+  console.log(logPref + 'Creating object:');
+  var objId = req.body.id;
+  var obj = req.body.data;
+  obj.type = dataType;
+  console.log(obj);
+
+  var callback = function(result) {
+    console.log(logPref + 'save callback');
+    console.log(result);
+    res.redirect('/admin/' + dataType);
+  }
+
+  var model = dataMdl.getModel(dataType);
+  console.log(logPref + 'Model: ' + model.modelName);
+  if (model) {
+    dataMdl.saveItem(model, objId, obj, callback);
+  } else {
+    res.redirect('/admin/error');  
+  }
+
+};
+
+
+
 // AJAX get request
+exports.getItemsData = function(req, res) {
+
+  var dataType = getDataType(req.params.dataType);
+  console.log(logPref + dataType);
+
+  var renderer = function(data) {
+    res.send(data);
+  }
+
+  var model = dataMdl.getModel(dataType);
+  console.log(logPref + 'Model: ' + model.modelName);
+  if (model) {
+    dataMdl.getItemList(model, renderer);
+  } else {
+    res.redirect('/admin/error');  
+  }
+};
+
 exports.del = function(req, res){
   var dataType = getDataType(req.params.dataType);
   console.log(logPref + dataType);
@@ -110,21 +162,3 @@ exports.del = function(req, res){
     res.send('error');  
   }
 };
-
-// // AJAX get request OLD
-// exports.delete = function(req, res){
-//   console.log(logPref + 'Processing delete driver request:');
-//   console.log(req.query);
-
-//   var objId = req.query.id;
-//   console.log(objId);
-
-//   var callback = function(result) {
-//     console.log(logPref + 'deleteDriver callback');
-//     console.log(result);
-//     res.send(result);
-//   }
-
-//   // dataMdl.markItemAsDeleted(Driver, objId, callback);
-//   dataMdl.deleteItemFromDb(Driver, objId, callback);
-// };

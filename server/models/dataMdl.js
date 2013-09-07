@@ -19,17 +19,18 @@ var teamSchema = mongoose.Schema({type: String,
 
 var seasonSchema = mongoose.Schema({type: String,
 																		name: String, 
-																		completed: Boolean, 
+																		completed: Boolean,
 																		deleted: Boolean});
 
 var rulesSchema = mongoose.Schema({	type: String,
 																		name: String, 
-																		season_id: String, 
+																		season_id: String,
 																		deleted: Boolean});
 
 var raceSchema = mongoose.Schema({type: String,
 																	name: String, 
 																	date: String, 
+																	place: String, 
 																	season_id: String, 
 																	deleted: Boolean});
 
@@ -60,6 +61,8 @@ exports.getModel = function(modelName) {
 // ------------------------------------
 exports.getItemList = function(Model, callback) {
 
+	var self = this;
+
   console.log(logPref + 'Requesting items of collection ' + Model.modelName);
 	// console.log(Model);
 
@@ -80,9 +83,11 @@ exports.saveItem = function(Model, objId, obj, callback) {
 
 	if (objId) {
 	// Update existing
+		console.log(logPref + 'Updating existing, id=' + objId);
 		Model.findByIdAndUpdate(objId, obj, callback)
 	} else {
 	// Create new
+		console.log(logPref + 'Creating new');
 		obj.deleted = false;
 		var newItem = new Model(obj);
 

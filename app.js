@@ -42,13 +42,17 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-
+// Pages
 app.get( '/', 			routes.index);
 app.get( '/admin', 	auth.ensureAuthenticated, adminRoutes.index);
+app.get( '/admin/:dataType', 			auth.ensureAuthenticated, dataCtrl.showItemsPage);
 
-app.get( '/admin/:dataType', 			auth.ensureAuthenticated, dataCtrl.getList);
-app.post('/admin/:dataType/save', 	auth.ensureAuthenticated, dataCtrl.save);
-app.get( '/admin/:dataType/delete', 	auth.ensureAuthenticated, dataCtrl.del);
+
+// Data
+app.get( '/data/:dataType',      auth.ensureAuthenticated, dataCtrl.getItemsData);
+app.post('/data/:dataType/save',  auth.ensureAuthenticated, dataCtrl.save);
+app.get( '/data/:dataType/delete',  auth.ensureAuthenticated, dataCtrl.del);
+
 
 
 // Auth
