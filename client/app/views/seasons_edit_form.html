@@ -1,40 +1,87 @@
-<div class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">{{title}}</h4>
-      </div>
-      <div class="modal-body">
+<div class="modal fade" id="modal" ng-init="init()">
+	<div class="modal-dialog wide">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 ng-show="item._id" class="modal-title">Редактирование сезона: {{item.name}}</h4>
+				<h4 ng-hide="item._id" class="modal-title">Создание сезона: {{item.name}}</h4>
+			</div>
+			<div class="modal-body">
 
-        <form class="form-horizontal" 
-              role="form" 
-              id="form"
-              action="{{formSubmitUrl}}" 
-              method="post">
+				<div class="row">
+					<div class="col-md-12">
+						<form class="form-horizontal">
 
-          <input type="hidden" name="dbId" value="{{item._id}}"/>    
+							<input type="hidden" ng-model="item._id"/>    
+							<input type="hidden" ng-model="item.children_type" value="races"/>    
 
+							<div class="form-group">
+								<label class="col-lg-2 control-label">Название</label>
+								<div class="col-lg-6">
+									<input type="text" class="form-control" ng-model="item.name" placeholder="Название сезона"/>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
 
-          <div class="form-group">
-            <label for="seasonName" class="col-lg-3 control-label">Название</label>
-            <div class="col-lg-9">
-              <input type="text" 
-                    class="form-control" 
-                    id="seasonName"
-                    name="name"
-                    value="{{item.name}}"
-                    placeholder="Название сезона"/>
-            </div>
-          </div>
+				<br/>
 
-        </form>
+				<div class="row" ng-showz="item._id">
+					<div class="col-md-12">
 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" ng-click="saveChangesClick('form')">Сохранить изменения</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Отменить</button>
-      </div>
-    </div>
-  </div>
+						<table  class="table table-condensed table-hover table-striped table-borderedz">
+							<thead>
+								<tr>
+									<th>Этап</th>
+									<th>Дата</th>
+									<th>Трасса</th>
+									<th>
+										<button type="button" class="btn btn-primary btn-xs pull-right"
+														ng-click="addChildClick()">
+											<i class="icon-plus"></i> Добавить этап
+										</button>										
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="child in children">
+									<td>
+										<input type="text" class="form-control input-sm" 
+											ng-model="child.name"
+											placeholder="Название этапа"/>									
+									</td>
+
+									<td>
+										<input type="date" class="form-control input-sm" 
+											ng-model="child.date"
+											placeholder="Название этапа"/>									
+									</td>
+
+									<td>
+										<input type="text" class="form-control input-sm" 
+											ng-model="child.place"
+											placeholder="Место проведения этапа"/>									
+									</td>
+
+									<td>
+										<button type="button" class="btn btn-danger btn-xs pull-right"
+														ng-click="deleteChildClick(child)">
+											<i class="icon-trash"></i>
+										</button>	
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" ng-click="saveChangesClick()">Сохранить изменения</button>
+				<button type="button" class="btn btn-default" ng-click="cancelClick()" zdata-dismiss="modal">Отменить</button>
+			</div>
+		</div>
+	</div>
 </div>

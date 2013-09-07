@@ -45,31 +45,81 @@ exports.showItemsPage = function(req, res) {
 
 // Post request
 exports.save = function(req, res){
+	console.log(logPref + 'Processing save request.');
+	console.log('=====================================================================================');
+
 	var dataType = getDataType(req.params.dataType);
 	console.log(logPref + dataType);
 
-	console.log(logPref + 'Processing save request:');
+	console.log(logPref + 'Request body:');
+	console.log('------------------------------');
 	console.log(req.body);
+	console.log('------------------------------');
+	console.log('');
 
 	console.log(logPref + 'Creating object:');
-	var objId = req.body.id;
-	var obj = req.body.data;
+	console.log('------------------------------');
+	var obj = req.body.item;
 	obj.type = dataType;
 	console.log(obj);
+	console.log('------------------------------');
+	console.log('');
 
-	var callback = function(result) {
-		console.log(logPref + 'save callback');
-		console.log(result);
-		res.redirect('/admin/' + dataType);
-	}
+	console.log(logPref + 'Children:');
+	console.log('------------------------------');
+	console.log(req.body.children);
+	console.log('------------------------------');
+	console.log('');
+
 
 	var model = dataMdl.getModel(dataType);
 	console.log(logPref + 'Model: ' + model.modelName);
+	console.log('');
+
+
+	var callback = function(result) {
+		console.log(logPref + 'Save callback result');
+		console.log('------------------------------');
+		console.log(result);
+		console.log('------------------------------');
+		res.send(result);		
+
+		processChildren(result, req.body.children);
+
+	}
+
 	if (model) {
-		dataMdl.saveItem(model, objId, obj, callback);
+		console.log(logPref + 'Saving model..');
+		console.log('------------------------------');
+		console.log('');
+		dataMdl.saveItem(model, obj._id, obj, callback);
+
 	} else {
 		res.redirect('/admin/error');  
 	}
+
+
+	var processChildren = function(obj, children) {
+		var childType = obj.children_type;
+
+		if (childType && children && children.length>0) {
+			console.log(logPref + ' -- Processing children.');			
+	
+			var childrenModel = dataMdl.getModel(childType);
+			console.log(logPref + ' -- Children model: ' + childrenModel.modelName);
+
+			for (var i = 0; i < children.length; i++) {
+				var child = children[i];
+				child.parent_id = obj._id;
+				dataMdl.saveItem(childrenModel, child._id, child, callback);
+			};
+		} else {
+			console.log(logPref + ' -- No children for object: ');
+			console.log(obj);
+		}
+
+	}
+
 
 };
 

@@ -38,7 +38,7 @@ appModule.factory('EditDataSrvc', ['$http', function($http) {
       });
   }
 
-  editDataSrvc.saveItem = function(dataType, objId, data, callback) {
+  editDataSrvc.saveItem = function(dataType, item, children, callback) {
     var url = '/data/' + dataType + '/save';
 
     if (!url) {
@@ -51,17 +51,14 @@ appModule.factory('EditDataSrvc', ['$http', function($http) {
     $http({
       url: url, 
       method: "POST",
-      data: {id: objId, data: data}
+      data: {item: item, children: children}
     }).success(
       function(err) {
         console.log(log_ctrl + 'Saving result:');
-        console.log(data);
+        console.log(err);
         callback();
       });
   }
-
-
-
 
   return editDataSrvc;
 }]);

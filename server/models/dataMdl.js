@@ -20,6 +20,7 @@ var teamSchema = mongoose.Schema({type: String,
 var seasonSchema = mongoose.Schema({type: String,
 																		name: String, 
 																		completed: Boolean,
+																		children_type: String, 
 																		deleted: Boolean});
 
 var rulesSchema = mongoose.Schema({	type: String,
@@ -31,7 +32,7 @@ var raceSchema = mongoose.Schema({type: String,
 																	name: String, 
 																	date: String, 
 																	place: String, 
-																	season_id: String, 
+																	parent_id: String, 
 																	deleted: Boolean});
 
 var resultSchema = mongoose.Schema({type: String,
@@ -60,18 +61,18 @@ exports.getModel = function(modelName) {
 // Methods
 // ------------------------------------
 exports.getItemList = function(Model, query, callback) {
-  console.log(logPref + 'Requesting items of collection ' + Model.modelName);
+	console.log(logPref + 'Requesting items of collection ' + Model.modelName);
 
 	var findExecuted = function (err, result) {
-	  if (err) {
-	  	console.log(logPref + 'Could not find data in DB. Error: ');
-	  	console.log(err);
+		if (err) {
+			console.log(logPref + 'Could not find data in DB. Error: ');
+			console.log(err);
 
-	  } else {
+		} else {
 			console.log(logPref + Model.modelName + ' items found:');
 			console.log(result);
 			callback(result);
-	  }
+		}
 	}
 
 	if (query) {
@@ -88,43 +89,61 @@ exports.getItemList = function(Model, query, callback) {
 }
 
 exports.getItem = function(Model, id, callback) {
-  console.log(logPref + 'Requesting items of collection ' + Model.modelName);
+	console.log(logPref + 'Requesting items of collection ' + Model.modelName);
 	// console.log(Model);
 	Model.findById(id, function (err, result) {
-	  if (err) {
-	  	console.log(logPref + 'Could not find data in DB.');
-	  } else {
+		if (err) {
+			console.log(logPref + 'Could not find data in DB.');
+		} else {
 			console.log(logPref + Model.modelName + ' items found:');
 			console.log(result);
 			console.log('------------------------');
 			callback(result);
-	  }
+		}
 	});
 }
 
 exports.saveItem = function(Model, objId, obj, callback) {
 	console.log(logPref + Model.modelName + ' - Saving obj to DB');
+	console.log('------------------------');
+	console.log('');
+
+	// Prepare object for saving
+	delete obj._id;
 
 	if (objId) {
 	// Update existing
 		console.log(logPref + 'Updating existing, id=' + objId);
-		Model.findByIdAndUpdate(objId, obj, callback)
+		console.log(obj);
+		console.log('------------------------');
+		console.log('');
+
+
+		var operationResult = function (err, product) {
+				if (err) {
+					console.log(logPref + 'Could not save data to DB.');
+					console.log(err);
+					callback(err);
+				} else {
+					console.log(logPref + 'Data was successfully saved to DB:');
+					console.log('------------------------');
+					console.log(product);
+					console.log('------------------------');
+					console.log('');
+					callback(product);
+				}
+			}
+
+
+		Model.findByIdAndUpdate(objId, obj, operationResult);
+
 	} else {
 	// Create new
 		console.log(logPref + 'Creating new');
 		obj.deleted = false;
 		var newItem = new Model(obj);
 
-		newItem.save(
-			function (err) {
-				if (err) {
-					console.log(logPref + 'Could not save data to DB.');
-					console.log(err);
-				} else {
-					console.log('logPref + Data was successfully saved to DB.');
-				}
-				callback(err);
-			});				
+		newItem.save(operationResult);				
 	}
 }
 
