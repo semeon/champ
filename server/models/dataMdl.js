@@ -119,7 +119,7 @@ exports.saveItem = function(Model, objId, obj, callback) {
 		console.log('');
 
 
-		var operationResult = function (err, product) {
+		var operationResult = function (err, product, num) {
 				console.log(logPref + 'Saving results:');
 
 				if (err) {
@@ -141,7 +141,7 @@ exports.saveItem = function(Model, objId, obj, callback) {
 
 	} else {
 	// Create new
-		console.log(logPref + 'Creating new');
+		console.log(logPref + 'Creating new document');
 		obj.deleted = false;
 
 		if (Model.modelName == 'seasons') {
@@ -149,12 +149,16 @@ exports.saveItem = function(Model, objId, obj, callback) {
 			obj.completed = false;
 		}
 
-		console.log(logPref + 'Creating new object:');
 		var newItem = new Model(obj);
+		console.log(logPref + ' - Model.modelName: ' + Model.modelName);
+		console.log(logPref + ' - newItem.modelName: ' + newItem.modelName);
 		console.log(obj);
 
-		console.log(logPref + 'Saving..');
+		console.log(logPref + ' - Saving..');
 		newItem.save(operationResult);				
+
+		// Model.create(obj, operationResult);				
+
 	}
 }
 
