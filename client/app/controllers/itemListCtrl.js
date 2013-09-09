@@ -4,9 +4,8 @@ function itemListCtrl($scope, $rootScope, $compile, EditDataSrvc, GetDataSrvc) {
 	console.log('itemListCtrl Controller started');
 
 
-
-
-	// Private
+	// Private members
+	// -------------------------
 		function callDataReload() {
 			GetDataSrvc.loadItems($scope.dataType, {}, function(data) {
 					$scope.items = data;
@@ -21,80 +20,16 @@ function itemListCtrl($scope, $rootScope, $compile, EditDataSrvc, GetDataSrvc) {
 
 
 		function showEditDialog(item) {
-			var dialog_ctrl = ' - dialogCtrl: ';
+			console.log(log_ctrl + 'showEditDialog started.');
 			var dialogScope = $rootScope.$new(true);
-			dialogScope.formId = Math.round(new Date().getTime() / 1000);
-			dialogScope.formSubmitUrl = $scope.formSubmitUrl;
-			dialogScope.requiredData = $scope.requiredData;
 
-			dialogScope.addChild = function () {
-				console.log(dialog_ctrl + 'Creating new child...');						
-				var newChild = {};
-				newChild.type = dialogScope.childrenType;
-				if (newChild.type == 'races') {
-					newChild.name = '';
-					newChild.date = '';
-					newChild.place = '';
-					newChild.season_id = 'item._id';
-				}
-				dialogScope.children.push(newChild);
-			}
-
-
-			dialogScope.init = function() {
-				if (item) {
-					console.log(dialog_ctrl + 'Dialog scope started.');				
-					dialogScope.item = item;
-					dialogScope.title = 'Изменить данные: ' + item.name;
-
-					dialogScope.children = [];
-					dialogScope.childrenType = item.children_type;
-					GetDataSrvc.loadItems(dialogScope.childrenType, 
-																{parent_id: item._id}, 
-																function(result) { 
-																	if (result && result.length>0) {
-																		console.log(dialog_ctrl + 'Loaded children:');
-																		console.log(result);
-																		dialogScope.children = result;
-																	} else {
-																		dialogScope.addChild(dialogScope.childrenType);
-																	}
-																});
-
-				} else {
-					dialogScope.item = {};
-					dialogScope.title = 'Создать новую запись';
-					dialogScope.children = [];
-					dialogScope.addChild(dialogScope.childrenType);
-				}
-	
-			}
-
-			dialogScope.addChildClick = function() {
-				console.log(dialog_ctrl + 'addChildClick');
-				dialogScope.addChild(dialogScope.childrenType);
-			}
-
-			dialogScope.saveChangesClick = function() {
-				console.log(dialog_ctrl + 'Result object: ');
-				console.log(dialogScope.item);
-
-				EditDataSrvc.saveItem($scope.dataType, dialogScope.item, dialogScope.children, 
-					function(){ 
-						callDataReload();
-						$('#modal').modal('hide');
-						// location.reload(); 
-					});
-			}
-
-			dialogScope.cancelClick = function() {
-				$('#modal').modal('hide');
-
-			}
+			dialogScope.data = item;
+			dialogScope.dataType = $scope.dataType;
+			console.log(log_ctrl + 'dataType: ' +  $scope.dataType);
 
 			var openDialog = function(html) {
-				$('.modal').delay(5000).remove();
-				$('.modal-backdrop').delay(5000).remove();				
+				$('.modal').remove();
+				$('.modal-backdrop').remove();				
 				var dialogDom = $compile(html)(dialogScope);
 				$(dialogDom).modal();
 			}
@@ -103,12 +38,8 @@ function itemListCtrl($scope, $rootScope, $compile, EditDataSrvc, GetDataSrvc) {
 		}
 
 
-
-
-
-
-
-	// Public
+	// Public members
+	// -------------------------
 		$scope.init = function(data, type) {
 			console.log(log_ctrl + 'init()');
 			$scope.items = data;

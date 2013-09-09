@@ -49,10 +49,10 @@ app.get( '/admin/:dataType', 			auth.ensureAuthenticated, dataCtrl.showItemsPage
 
 
 // Data
-app.get( '/data/:dataType',      auth.ensureAuthenticated, dataCtrl.getItemsData);
-app.get( '/data/:dataType/:id',      auth.ensureAuthenticated, dataCtrl.getItem);
-app.post('/data/:dataType/save',  auth.ensureAuthenticated, dataCtrl.save);
-app.get( '/data/:dataType/delete',  auth.ensureAuthenticated, dataCtrl.del);
+app.get( '/data/:dataType',							auth.ensureAuthenticated, dataCtrl.getItemsData);
+app.post('/data/:dataType/save',				auth.ensureAuthenticated, dataCtrl.save);
+app.get( '/data/:dataType/delete/:id',	auth.ensureAuthenticated, dataCtrl.del);
+app.get( '/data/:dataType/:id',					auth.ensureAuthenticated, dataCtrl.getItem);
 
 
 

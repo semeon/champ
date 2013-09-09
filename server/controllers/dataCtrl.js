@@ -161,7 +161,7 @@ exports.getItem = function(req, res) {
 	var dataType = getDataType(req.params.dataType);
 	console.log(logPref + 'Data type: ' + dataType);
 
-	var itemId = getDataType(req.params.id);
+	var itemId = req.params.id;
 	console.log(logPref + 'Item id: ' + itemId);
 
 	var renderer = function(data) {
@@ -178,13 +178,16 @@ exports.getItem = function(req, res) {
 };
 
 exports.del = function(req, res){
+	console.log(logPref + 'Processing delete request!!!!!!!!!!!!!!!!!!!!!!!:');
+	console.log('=====================================================================================');
+	
+	console.log(req.query);
+
 	var dataType = getDataType(req.params.dataType);
 	console.log(logPref + dataType);
 
-	console.log(logPref + 'Processing delete request:');
-	console.log(req.query);
 
-	var objId = req.query.id;
+	var objId = req.params.id;
 	console.log(objId);
 
 	var callback = function(result) {

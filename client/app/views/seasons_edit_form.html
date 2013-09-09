@@ -1,5 +1,6 @@
 <div class="modal fade" id="modal" ng-init="init()">
-	<div class="modal-dialog wide">
+
+	<div class="modal-dialog wide" ng-controller="itemCtrl" ng-init="init(data, dataType)">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

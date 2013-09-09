@@ -120,6 +120,8 @@ exports.saveItem = function(Model, objId, obj, callback) {
 
 
 		var operationResult = function (err, product) {
+				console.log(logPref + 'Saving results:');
+
 				if (err) {
 					console.log(logPref + 'Could not save data to DB.');
 					console.log(err);
@@ -141,8 +143,17 @@ exports.saveItem = function(Model, objId, obj, callback) {
 	// Create new
 		console.log(logPref + 'Creating new');
 		obj.deleted = false;
-		var newItem = new Model(obj);
 
+		if (Model.modelName == 'seasons') {
+			obj.children_type = 'races';
+			obj.completed = false;
+		}
+
+		console.log(logPref + 'Creating new object:');
+		var newItem = new Model(obj);
+		console.log(obj);
+
+		console.log(logPref + 'Saving..');
 		newItem.save(operationResult);				
 	}
 }
