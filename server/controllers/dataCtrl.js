@@ -63,8 +63,6 @@ exports.saveItem = function(req, res){
 	console.log(logPref + 'Item data type: ' + dataType);
 	console.log(logPref + 'Creating object:');
 	console.log('------------------------------');
-	dataItem.type = dataType;
-
 	console.log(dataItem);
 	console.log('------------------------------');
 	console.log('');
@@ -73,11 +71,6 @@ exports.saveItem = function(req, res){
 	console.log('------------------------------');
 	console.log(dataItemChildren);
 	console.log('------------------------------');
-	console.log('');
-
-
-	var model = dataMdl.getModel(dataType);
-	console.log(logPref + 'Model: ' + model.modelName);
 	console.log('');
 
 
@@ -95,11 +88,11 @@ exports.saveItem = function(req, res){
 
 	}
 
-	if (model) {
-		console.log(logPref + 'Saving model..');
+	if (dataType) {
+		console.log(logPref + 'Call data model for saving..');
 		console.log('------------------------------');
 		console.log('');
-		dataMdl.saveItem(model, dataItem._id, dataItem, saveCb);
+		dataMdl.saveItem(dataType, dataItem._id, dataItem, saveCb);
 
 	} else {
 		res.redirect('/admin/error');  
@@ -111,14 +104,14 @@ exports.saveItem = function(req, res){
 
 		if (childType && children && children.length>0) {
 			console.log(logPref + ' -- Processing children.');			
-	
-			var childrenModel = dataMdl.getModel(childType);
-			console.log(logPref + ' -- Children model: ' + childrenModel.modelName);
+			console.log(logPref + '  - Children data type: ' + childType);
+			console.log(logPref + '  - Children: ');
+			console.log(children);
 
 			for (var i = 0; i < children.length; i++) {
 				var child = children[i];
 				child.parent_id = obj._id;
-				dataMdl.saveItem(childrenModel, child._id, child, saveCb);
+				dataMdl.saveItem(childType, child._id, child, saveCb);
 			};
 		} else {
 			console.log(logPref + ' -- No children for object: ');

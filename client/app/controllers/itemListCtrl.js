@@ -64,7 +64,7 @@ function itemListCtrl($scope, $rootScope, $compile, EditDataSrvc, GetDataSrvc) {
 
 			bootbox.dialog({
 				message: '<h4 class="text-danger"><i class="icon-warning-sign"></i> Внимание!</h4>' +
-						 '<p class="text-dangers"> Вы собираетесь запись: ' + 
+						 '<p class="text-dangers"> Вы собираетесь удалить запись: ' + 
 							item.name + 
 							'. Эту опрерацию невозможно отменить.</p>',
 				title: "Удаление записи " + item.name,

@@ -10,14 +10,14 @@ function itemCtrl($scope, $rootScope, $compile, GetDataSrvc, EditDataSrvc) {
 		function addChild() {
 			console.log(log_ctrl + 'Creating new child. Type: ' + $scope.childrenType);						
 			var newChild = {};
-			newChild.type = $scope.childrenType;
-			if (newChild.type == 'races') {
+
+			if ($scope.dataType == 'seasons') {
 				newChild.name = '';
 				newChild.date = '';
 				newChild.place = '';
-				newChild.season_id = 'item._id';
+				$scope.children.push(newChild);
 			}
-			$scope.children.push(newChild);
+
 		}
 
 
@@ -52,18 +52,17 @@ function itemCtrl($scope, $rootScope, $compile, GetDataSrvc, EditDataSrvc) {
 																		console.log(result);
 																		$scope.children = result;
 																	} else {
-																		addChild($scope.childrenType);
+																		addChild();
 																	}
 																});
 				}
-
 
 
 			// Create a new item
 			} else {
 				console.log(log_ctrl + 'Creating new item...');
 				$scope.title = 'Создать новую запись';
-				addChild($scope.childrenType);
+				addChild();
 			}
 
 
@@ -87,26 +86,28 @@ function itemCtrl($scope, $rootScope, $compile, GetDataSrvc, EditDataSrvc) {
 				console.log(log_ctrl + 'Result object to save: ');
 				console.log($scope.item);
 
-				console.log(log_ctrl + 'Children object to save: ');
+				console.log(log_ctrl + 'Children object: ');
 				console.log($scope.children);
 
 				console.log(log_ctrl + 'Children dataType: ');
 				console.log($scope.childrenType);
 
 				var childrenToSave;
-
 				if ($scope.children.length>0) {
 					childrenToSave = $scope.children;
 				} else {
 					childrenToSave = false;
 				}
 
+				console.log(log_ctrl + 'Children to save: ');
+				console.log(childrenToSave);
+
 				console.log(log_ctrl + 'Saving the object: ');
 				EditDataSrvc.saveItem($scope.dataType, $scope.item, childrenToSave, 
 					function(){ 
 						$('#modal').modal('hide');
 						// callDataReload();
-						// location.reload(); 
+						location.reload(); 
 					});
 
 				console.log(log_ctrl + 'Save request sent..');

@@ -103,13 +103,19 @@ exports.getItem = function(Model, id, callback) {
 	});
 }
 
-exports.saveItem = function(Model, objId, obj, callback) {
-	console.log(logPref + Model.modelName + ' - Saving obj to DB');
+exports.saveItem = function(dataType, objId, obj, callback) {
+	console.log(logPref + ' - Saving obj to DB: ' + dataType);
 	console.log('------------------------');
 	console.log('');
 
+	var Model = modelMap[dataType];
+	console.log(logPref + 'Model: ' + Model.modelName);
+	console.log('');
+
+
 	// Prepare object for saving
 	delete obj._id;
+
 
 	if (objId) {
 	// Update existing
@@ -119,46 +125,47 @@ exports.saveItem = function(Model, objId, obj, callback) {
 		console.log('');
 
 
-		function saveItemCb(err, product, num) {
-				console.log(logPref + 'Saving results:');
-
-				if (err) {
-					console.log(logPref + 'Could not save data to DB.');
-					console.log(err);
-					callback(err);
-				} else {
-					console.log(logPref + 'Data was successfully saved to DB:');
-					console.log('------------------------');
-					console.log(product);
-					console.log('------------------------');
-					console.log('');
-					callback(product);
-				}
-			}
-
-
 		Model.findByIdAndUpdate(objId, obj, saveItemCb);
 
 	} else {
 	// Create new
 		console.log(logPref + 'Creating new document');
+		
+		// Default field values for all new objects
+		// ------------------------------------
 		obj.deleted = false;
+		obj.type = Model.modelName;
 
 		// Set service fields for specific types
 		// ------------------------------------
 		if (Model.modelName == 'seasons') {
 			obj.children_type = 'races';
 			obj.completed = false;
-
 		}
-
-
 
 		console.log(logPref + ' - Model.modelName: ' + Model.modelName + '; Object:');
 		console.log(obj);
 		console.log(logPref + ' - Saving..');
 		Model.create(obj, saveItemCb);				
 	}
+
+	function saveItemCb(err, product, num) {
+		console.log(logPref + 'Saving results:');
+
+		if (err) {
+			console.log(logPref + 'Could not save data to DB.');
+			console.log(err);
+			callback(err);
+		} else {
+			console.log(logPref + 'Data was successfully saved to DB:');
+			console.log('------------------------');
+			console.log(product);
+			console.log('------------------------');
+			console.log('');
+			callback(product);
+		}
+	}
+
 }
 
 exports.markItemAsDeleted = function(Model, objId, callback) {
