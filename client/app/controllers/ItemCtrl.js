@@ -7,6 +7,9 @@ function itemCtrl($scope, $rootScope, $compile, GetDataSrvc, EditDataSrvc) {
 		$scope.formSubmitUrl = $scope.formSubmitUrl;
 		$scope.requiredData = $scope.requiredData;
 
+		$scope.deleteChildRequests = [];
+
+
 		function addChild() {
 			console.log(log_ctrl + 'Creating new child. Type: ' + $scope.childrenType);						
 			var newChild = {};
@@ -16,6 +19,9 @@ function itemCtrl($scope, $rootScope, $compile, GetDataSrvc, EditDataSrvc) {
 				newChild.date = '';
 				newChild.place = '';
 				$scope.children.push(newChild);
+
+				newChild.toDelete = false;
+
 			}
 
 		}
@@ -76,6 +82,12 @@ function itemCtrl($scope, $rootScope, $compile, GetDataSrvc, EditDataSrvc) {
 				addChild($scope.childrenType);
 			}
 
+			$scope.deleteChildClick = function(child) {
+				console.log(log_ctrl + 'deleteChildClick');
+				child.toDelete = !child.toDelete;
+			}
+
+
 			$scope.saveChangesClick = function() {
 				console.log(log_ctrl + 'Save button clicked.');
 				console.log(log_ctrl + '=================================================');
@@ -92,12 +104,19 @@ function itemCtrl($scope, $rootScope, $compile, GetDataSrvc, EditDataSrvc) {
 				console.log(log_ctrl + 'Children dataType: ');
 				console.log($scope.childrenType);
 
+
+				var childrenToDelete = [];
+				// Send delete requests
+
+
+
 				var childrenToSave;
 				if ($scope.children.length>0) {
 					childrenToSave = $scope.children;
 				} else {
 					childrenToSave = false;
 				}
+
 
 				console.log(log_ctrl + 'Children to save: ');
 				console.log(childrenToSave);
