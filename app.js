@@ -50,8 +50,8 @@ app.get( '/admin/:dataType', 			auth.ensureAuthenticated, dataCtrl.showItemsPage
 
 // Data
 app.get( '/data/:dataType',							auth.ensureAuthenticated, dataCtrl.getItemsData);
-app.post('/data/:dataType/save',				auth.ensureAuthenticated, dataCtrl.save);
-app.get( '/data/:dataType/delete/:id',	auth.ensureAuthenticated, dataCtrl.del);
+app.post('/data/:dataType/save',				auth.ensureAuthenticated, dataCtrl.saveItem);
+app.get( '/data/:dataType/delete/:id',	auth.ensureAuthenticated, dataCtrl.delItem);
 app.get( '/data/:dataType/:id',					auth.ensureAuthenticated, dataCtrl.getItem);
 
 

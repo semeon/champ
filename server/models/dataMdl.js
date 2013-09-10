@@ -119,7 +119,7 @@ exports.saveItem = function(Model, objId, obj, callback) {
 		console.log('');
 
 
-		var operationResult = function (err, product, num) {
+		function saveItemCb(err, product, num) {
 				console.log(logPref + 'Saving results:');
 
 				if (err) {
@@ -137,28 +137,27 @@ exports.saveItem = function(Model, objId, obj, callback) {
 			}
 
 
-		Model.findByIdAndUpdate(objId, obj, operationResult);
+		Model.findByIdAndUpdate(objId, obj, saveItemCb);
 
 	} else {
 	// Create new
 		console.log(logPref + 'Creating new document');
 		obj.deleted = false;
 
+		// Set service fields for specific types
+		// ------------------------------------
 		if (Model.modelName == 'seasons') {
 			obj.children_type = 'races';
 			obj.completed = false;
+
 		}
 
-		var newItem = new Model(obj);
-		console.log(logPref + ' - Model.modelName: ' + Model.modelName);
-		console.log(logPref + ' - newItem.modelName: ' + newItem.modelName);
+
+
+		console.log(logPref + ' - Model.modelName: ' + Model.modelName + '; Object:');
 		console.log(obj);
-
 		console.log(logPref + ' - Saving..');
-		newItem.save(operationResult);				
-
-		// Model.create(obj, operationResult);				
-
+		Model.create(obj, saveItemCb);				
 	}
 }
 

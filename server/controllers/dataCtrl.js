@@ -18,6 +18,7 @@ function getDataType (urlParam) {
 }
 
 // Page Renderers
+// ------------------------------------
 exports.showItemsPage = function(req, res) {
 	var dataType = getDataType(req.params.dataType);
 	console.log(logPref + dataType);
@@ -43,13 +44,11 @@ exports.showItemsPage = function(req, res) {
 
 
 
-// Post request
-exports.save = function(req, res){
+// Data requests
+// ------------------------------------
+exports.saveItem = function(req, res){
 	console.log(logPref + 'Processing save request.');
 	console.log('=====================================================================================');
-
-	var dataType = getDataType(req.params.dataType);
-	console.log(logPref + dataType);
 
 	console.log(logPref + 'Request body:');
 	console.log('------------------------------');
@@ -57,17 +56,22 @@ exports.save = function(req, res){
 	console.log('------------------------------');
 	console.log('');
 
+	var dataType = getDataType(req.params.dataType);
+	var dataItem = req.body.item;
+	var dataItemChildren = req.body.children;
+
+	console.log(logPref + 'Item data type: ' + dataType);
 	console.log(logPref + 'Creating object:');
 	console.log('------------------------------');
-	var obj = req.body.item;
-	obj.type = dataType;
-	console.log(obj);
+	dataItem.type = dataType;
+
+	console.log(dataItem);
 	console.log('------------------------------');
 	console.log('');
 
 	console.log(logPref + 'Children:');
 	console.log('------------------------------');
-	console.log(req.body.children);
+	console.log(dataItemChildren);
 	console.log('------------------------------');
 	console.log('');
 
@@ -77,14 +81,17 @@ exports.save = function(req, res){
 	console.log('');
 
 
-	var callback = function(result) {
+	function saveCb(result) {
 		console.log(logPref + 'Save callback result');
 		console.log('------------------------------');
 		console.log(result);
 		console.log('------------------------------');
-		res.send(result);		
+		res.send(result);
 
-		processChildren(result, req.body.children);
+		if (result.children_type) {
+			processChildren(result, dataItemChildren);
+		}
+
 
 	}
 
@@ -92,14 +99,14 @@ exports.save = function(req, res){
 		console.log(logPref + 'Saving model..');
 		console.log('------------------------------');
 		console.log('');
-		dataMdl.saveItem(model, obj._id, obj, callback);
+		dataMdl.saveItem(model, dataItem._id, dataItem, saveCb);
 
 	} else {
 		res.redirect('/admin/error');  
 	}
 
 
-	var processChildren = function(obj, children) {
+	function processChildren(obj, children) {
 		var childType = obj.children_type;
 
 		if (childType && children && children.length>0) {
@@ -111,7 +118,7 @@ exports.save = function(req, res){
 			for (var i = 0; i < children.length; i++) {
 				var child = children[i];
 				child.parent_id = obj._id;
-				dataMdl.saveItem(childrenModel, child._id, child, callback);
+				dataMdl.saveItem(childrenModel, child._id, child, saveCb);
 			};
 		} else {
 			console.log(logPref + ' -- No children for object: ');
@@ -124,8 +131,6 @@ exports.save = function(req, res){
 };
 
 
-
-// AJAX get request
 exports.getItemsData = function(req, res) {
 
 	var dataType = getDataType(req.params.dataType);
@@ -154,8 +159,6 @@ exports.getItemsData = function(req, res) {
 };
 
 
-
-
 exports.getItem = function(req, res) {
 
 	var dataType = getDataType(req.params.dataType);
@@ -177,10 +180,11 @@ exports.getItem = function(req, res) {
 	}
 };
 
-exports.del = function(req, res){
+
+exports.delItem = function(req, res){
 	console.log(logPref + 'Processing delete request!!!!!!!!!!!!!!!!!!!!!!!:');
 	console.log('=====================================================================================');
-	
+
 	console.log(req.query);
 
 	var dataType = getDataType(req.params.dataType);
@@ -205,6 +209,7 @@ exports.del = function(req, res){
 		res.send('error');  
 	}
 };
+
 
 function isEmptyObject(obj) {
 	return !Object.keys(obj).length;
