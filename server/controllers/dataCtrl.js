@@ -175,14 +175,11 @@ exports.getItem = function(req, res) {
 
 
 exports.delItem = function(req, res){
-	console.log(logPref + 'Processing delete request!!!!!!!!!!!!!!!!!!!!!!!:');
+	console.log(logPref + 'Processing delete request:');
 	console.log('=====================================================================================');
-
-	console.log(req.query);
 
 	var dataType = getDataType(req.params.dataType);
 	console.log(logPref + dataType);
-
 
 	var objId = req.params.id;
 	console.log(objId);

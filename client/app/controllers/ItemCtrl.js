@@ -13,7 +13,6 @@ function itemCtrl($scope, $rootScope, $compile, GetDataSrvc, EditDataSrvc) {
 		function addChild() {
 			console.log(log_ctrl + 'Creating new child. Type: ' + $scope.childrenType);						
 			var newChild = {};
-
 			if ($scope.dataType == 'seasons') {
 				newChild.name = '';
 				newChild.date = '';
@@ -21,9 +20,7 @@ function itemCtrl($scope, $rootScope, $compile, GetDataSrvc, EditDataSrvc) {
 				$scope.children.push(newChild);
 
 				newChild.toDelete = false;
-
 			}
-
 		}
 
 
@@ -106,12 +103,26 @@ function itemCtrl($scope, $rootScope, $compile, GetDataSrvc, EditDataSrvc) {
 
 
 				var childrenToDelete = [];
-				// Send delete requests
 
-
-
-				var childrenToSave;
+				var childrenToSave = [];
 				if ($scope.children.length>0) {
+					for (var i = 0; i < $scope.children.length; i++) {
+
+						var child = $scope.children[i];
+
+						if (child.toDelete && child.type) {
+							// Deleting child
+							console.log(log_ctrl + '- Deleting child: ');
+							console.log(child);							
+							EditDataSrvc.deleteItem(child.type, child, function(){});
+
+						} else {
+							// Saving child
+							EditDataSrvc.saveItem($scope.dataType, $scope.item, false, function(){});
+
+							// childrenToSave.push(child);
+						}
+					};
 					childrenToSave = $scope.children;
 				} else {
 					childrenToSave = false;
@@ -122,15 +133,19 @@ function itemCtrl($scope, $rootScope, $compile, GetDataSrvc, EditDataSrvc) {
 				console.log(childrenToSave);
 
 				console.log(log_ctrl + 'Saving the object: ');
-				EditDataSrvc.saveItem($scope.dataType, $scope.item, childrenToSave, 
-					function(){ 
-						$('#modal').modal('hide');
-						// callDataReload();
-						location.reload(); 
-					});
+				// EditDataSrvc.saveItem($scope.dataType, $scope.item, childrenToSave, 
+				// 	function(){ 
+				// 		$('#modal').modal('hide');
+				// 		// callDataReload();
+				// 		location.reload(); 
+				// 	});
 
-				console.log(log_ctrl + 'Save request sent..');
+				// console.log(log_ctrl + 'Save request sent..');
 				console.log(log_ctrl + '=================================================');
+
+				$('#modal').modal('hide');
+				// callDataReload();
+				location.reload(); 
 
 			}
 

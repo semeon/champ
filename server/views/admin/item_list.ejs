@@ -12,7 +12,8 @@
 							ng-controller="itemListCtrl" 
 							ng-init='init( <%-JSON.stringify(data)%> , "<%= page %>" )'>
 					<button type="button" class="btn btn-primary btn-sm pull-right"
-									ng-click="addButtonClick()">
+									ng-click="addButtonClick()"
+									style="margin-top: 25px;">
 						<i class="icon-plus"></i> Добавить
 					</button>
 
