@@ -46,7 +46,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="child in children">
+								<tr ng-repeat="child in children" ng-class="{warning:child.toDelete}">
 									<td>
 										<input type="text" class="form-control input-sm" 
 											ng-model="child.name"
@@ -66,7 +66,8 @@
 									</td>
 
 									<td>
-										<button type="button" class="btn btn-danger btn-xs pull-right"
+										<button type="button" data-toggle="button"
+														class="btn btn-danger btn-xs pull-right" 
 														ng-click="deleteChildClick(child)">
 											<i class="icon-trash"></i>
 										</button>	
@@ -81,7 +82,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" ng-click="saveChangesClick()">Сохранить изменения</button>
-				<button type="button" class="btn btn-default" ng-click="cancelClick()" zdata-dismiss="modal">Отменить</button>
+				<button type="button" class="btn btn-default" ng-click="cancelClick()">Отменить</button>
 			</div>
 		</div>
 	</div>
