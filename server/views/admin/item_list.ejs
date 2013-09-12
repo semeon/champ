@@ -29,10 +29,14 @@
 						<% include _races.ejs %>
 					<% } %> 					
 
-					<div ng-hide="items.length" class="alert alert-info">
-						<strong>Нет данных.</strong> Возможно следует 
-						<a href="" ng-click="addButtonClick()">добавить запись</a>?
-					</div>
+
+					<% if ( page != 'races') {%>				  	
+						<div ng-hide="items.length" class="alert alert-info">
+							<strong>Нет данных.</strong> Возможно следует 
+							<a href="" ng-click="addButtonClick()">добавить запись</a>?
+						</div>
+					<% } %> 
+
 				</div>
 			</div>
 

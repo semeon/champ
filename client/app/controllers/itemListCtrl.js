@@ -12,9 +12,11 @@ function itemListCtrl($scope, $rootScope, $compile, EditDataSrvc, GetDataSrvc) {
 			})
 		}
 
-		function loadCollection(dataType) {
-			GetDataSrvc.loadItems(dataType, {}, function(data) {
-					$scope.requiredData[dataType] = data;
+		function loadChildren(item) {
+			console.log(log_ctrl + 'loadChildren called for');
+			console.log(item);
+			GetDataSrvc.loadItems(item.children_type, {}, function(data) {
+					item.children = data;
 			})
 		}
 
@@ -45,10 +47,14 @@ function itemListCtrl($scope, $rootScope, $compile, EditDataSrvc, GetDataSrvc) {
 			$scope.items = data;
 			$scope.dataType = String(type).toLowerCase(); 
 			$scope.formSubmitUrl = '/data/' + $scope.dataType + '/save';
-			$scope.requiredData = {};
 
-			if ($scope.dataType == 'seasons') {
-				// loadCollection('seasons');
+			console.log(log_ctrl + '$scope.dataType: ' + $scope.dataType);
+
+			if ($scope.dataType == 'races') {
+				for (var i = 0; i < $scope.items.length; i++) {
+					var item = $scope.items[i];
+					loadChildren(item);	
+				};
 			}
 		};
 

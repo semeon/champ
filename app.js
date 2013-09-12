@@ -45,6 +45,7 @@ if ('development' == app.get('env')) {
 // Pages
 app.get( '/', 			routes.index);
 app.get( '/admin', 	auth.ensureAuthenticated, adminRoutes.index);
+// app.get( '/admin/:races', 			auth.ensureAuthenticated, dataCtrl.showRacesPage);
 app.get( '/admin/:dataType', 			auth.ensureAuthenticated, dataCtrl.showItemsPage);
 
 

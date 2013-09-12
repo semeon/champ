@@ -1,4 +1,4 @@
-function itemCtrl($scope, $rootScope, $compile, GetDataSrvc, EditDataSrvc) {
+function seasonCtrl($scope, $rootScope, $compile, GetDataSrvc, EditDataSrvc) {
 		var log_ctrl = ' - itemCtrl: ';
 		console.log('');
 		console.log('itemCtrl started');
@@ -24,7 +24,7 @@ function itemCtrl($scope, $rootScope, $compile, GetDataSrvc, EditDataSrvc) {
 		}
 
 
-		$scope.init = function(item, dataType) {
+		$scope.init = function(item) {
 			console.log(log_ctrl + 'init()');
 			$scope.dataType = dataType;
 
@@ -137,7 +137,7 @@ function itemCtrl($scope, $rootScope, $compile, GetDataSrvc, EditDataSrvc) {
 					function(){ 
 						$('#modal').modal('hide');
 						// callDataReload();
-						location.reload(); 
+						//location.reload(); 
 					});
 
 				// console.log(log_ctrl + 'Save request sent..');

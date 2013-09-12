@@ -19,9 +19,18 @@ function getDataType (urlParam) {
 
 // Page Renderers
 // ------------------------------------
+
 exports.showItemsPage = function(req, res) {
 	var dataType = getDataType(req.params.dataType);
 	console.log(logPref + dataType);
+
+	var page = dataType;
+	var model = dataMdl.getModel(dataType);
+
+	if (dataType == 'races') {
+		var model = dataMdl.getModel('seasons');
+	}
+
 	var renderer = function(data) {
 		res.render( 'admin/item_list', 
 								{ title: pageTitles[dataType],
@@ -32,7 +41,6 @@ exports.showItemsPage = function(req, res) {
 							);
 	}
 
-	var model = dataMdl.getModel(dataType);
 	console.log(logPref + 'Model: ' + model.modelName);
 	if (model) {
 		dataMdl.getItemList(model, false, renderer);
@@ -175,7 +183,7 @@ exports.getItem = function(req, res) {
 
 
 exports.delItem = function(req, res){
-	console.log(logPref + 'Processing delete request:');
+	console.log(logPref + 'Processing delete request!!!!!!!!!!!!!!!!!!!!!!!:');
 	console.log('=====================================================================================');
 
 	var dataType = getDataType(req.params.dataType);
