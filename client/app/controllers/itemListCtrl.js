@@ -45,8 +45,7 @@ function itemListCtrl($scope, $rootScope, $compile, EditDataSrvc, GetDataSrvc) {
 		$scope.init = function(data, type) {
 			console.log(log_ctrl + 'init()');
 			$scope.items = data;
-			$scope.dataType = String(type).toLowerCase(); 
-			$scope.formSubmitUrl = '/data/' + $scope.dataType + '/save';
+			$scope.dataType = String(type).toLowerCase();
 
 			console.log(log_ctrl + '$scope.dataType: ' + $scope.dataType);
 

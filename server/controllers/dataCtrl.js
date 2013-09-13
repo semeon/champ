@@ -92,8 +92,6 @@ exports.saveItem = function(req, res){
 		if (result.children_type) {
 			processChildren(result, dataItemChildren);
 		}
-
-
 	}
 
 	if (dataType) {

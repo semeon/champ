@@ -54,10 +54,10 @@ appModule.factory('EditDataSrvc', ['$http', function($http) {
       method: "POST",
       data: {item: item, children: children}
     }).success(
-      function(err) {
+      function(result) {
         console.log(log_ctrl + 'Saving result:');
-        console.log(err);
-        callback();
+        console.log(result);
+        callback(result);
       });
   }
 

@@ -1,39 +1,41 @@
 function seasonCtrl($scope, $rootScope, $compile, GetDataSrvc, EditDataSrvc) {
-		var log_ctrl = ' - itemCtrl: ';
+		var log_ctrl = ' - seasonCtrl: ';
 		console.log('');
-		console.log('itemCtrl started');
+		console.log('seasonCtrl started');
 
-		$scope.formId = Math.round(new Date().getTime() / 1000);
-		$scope.formSubmitUrl = $scope.formSubmitUrl;
-		$scope.requiredData = $scope.requiredData;
-
-		$scope.deleteChildRequests = [];
+		$scope.season = {};
+		$scope.races = [];
+		$scope.rules = [];
 
 
-		function addChild() {
-			console.log(log_ctrl + 'Creating new child. Type: ' + $scope.childrenType);						
-			var newChild = {};
-			if ($scope.dataType == 'seasons') {
-				newChild.name = '';
-				newChild.date = '';
-				newChild.place = '';
-				$scope.children.push(newChild);
+		function addNewRace() {
+			console.log(log_ctrl + 'Creating new empty race.');
+			var race = {};
+			race.name = '';
+			race.date = new Date();
+			race.place = '';
+			race.type = 'races';
+			race.toDelete = false;
+			$scope.races.push(race);
+		}
 
-				newChild.toDelete = false;
-			}
+		function addNewRule() {
+			console.log(log_ctrl + 'Creating new empty rule.');
+			var rule = {};
+			rule.name = '';
+			rule.points = 0;
+			rule.type = 'rules';
+			rule.toDelete = false;
+			$scope.rules.push(rule);
 		}
 
 
-		$scope.init = function(item) {
+		$scope.init = function(item, dataType) {
 			console.log(log_ctrl + 'init()');
 			$scope.dataType = dataType;
 
 			console.log(log_ctrl + 'Data dataType: ');
 			console.log(dataType);
-
-			$scope.item = {};
-			$scope.childrenType = '';
-			$scope.children = [];
 
 
 			// Edit existing item
@@ -41,31 +43,40 @@ function seasonCtrl($scope, $rootScope, $compile, GetDataSrvc, EditDataSrvc) {
 				console.log(log_ctrl + 'Edit mode. Item: ');
 				console.log(item);
 
-				$scope.item = item;
-				$scope.title = 'Изменить данные: ' + item.name;
+				$scope.season = item;
+				$scope.title = 'Изменить данные: ' + $scope.season.name;
 
-				if (item.children_type) {
-					$scope.childrenType = item.children_type;
-					console.log(log_ctrl + 'Loading children: ');
-					GetDataSrvc.loadItems($scope.childrenType, 
-																{parent_id: item._id}, 
-																function(result) { 
-																	if (result && result.length>0) {
-																		console.log(log_ctrl + 'Loaded children:');
-																		console.log(result);
-																		$scope.children = result;
-																	} else {
-																		addChild();
-																	}
-																});
-				}
+				console.log(log_ctrl + 'Loading races: ');
+				GetDataSrvc.loadItems('races', 
+															{season_id: $scope.season._id}, 
+															function(result) { 
+																if (result && result.length>0) {
+																	console.log(log_ctrl + 'Loaded races:');
+																	console.log(result);
+																	$scope.races = result;
+																} else {
+																	addNewRace();
+																}
+															});
 
+				GetDataSrvc.loadItems('rules', 
+															{season_id: $scope.season._id}, 
+															function(result) { 
+																if (result && result.length>0) {
+																	console.log(log_ctrl + 'Loaded races:');
+																	console.log(result);
+																	$scope.rules = result;
+																} else {
+																	addNewRule();
+																}
+															});
 
-			// Create a new item
+			// Create a new season
 			} else {
-				console.log(log_ctrl + 'Creating new item...');
+				console.log(log_ctrl + 'Creating new season...');
 				$scope.title = 'Создать новую запись';
-				addChild();
+				addNewRace();
+				addNewRule();
 			}
 
 
@@ -74,9 +85,14 @@ function seasonCtrl($scope, $rootScope, $compile, GetDataSrvc, EditDataSrvc) {
 		// Button Clicks
 		// -----------------------------------------------
 
-			$scope.addChildClick = function() {
-				console.log(log_ctrl + 'addChildClick');
-				addChild($scope.childrenType);
+			$scope.addRaceClick = function() {
+				console.log(log_ctrl + 'addRaceClick');
+				addNewRace();
+			}
+
+			$scope.addRuleClick = function() {
+				console.log(log_ctrl + 'addRaceClick');
+				addNewRule();
 			}
 
 			$scope.deleteChildClick = function(child) {
@@ -89,64 +105,49 @@ function seasonCtrl($scope, $rootScope, $compile, GetDataSrvc, EditDataSrvc) {
 				console.log(log_ctrl + 'Save button clicked.');
 				console.log(log_ctrl + '=================================================');
 
-				console.log(log_ctrl + 'Item dataType: ');
-				console.log($scope.dataType);
+				console.log(log_ctrl + ' - Result object to save: ');
+				console.log($scope.season);
 
-				console.log(log_ctrl + 'Result object to save: ');
-				console.log($scope.item);
+				console.log(log_ctrl + ' --- Races: ');
+				console.log($scope.races);
 
-				console.log(log_ctrl + 'Children object: ');
-				console.log($scope.children);
+				console.log(log_ctrl + ' --- Rules: ');
+				console.log($scope.rules);
 
-				console.log(log_ctrl + 'Children dataType: ');
-				console.log($scope.childrenType);
-
-
-				var childrenToDelete = [];
-
-				var childrenToSave = [];
-				if ($scope.children.length>0) {
-					for (var i = 0; i < $scope.children.length; i++) {
-						var child = $scope.children[i];
-
-						if (child.toDelete && child.type) {
-							// Deleting child
-							console.log(log_ctrl + '- Deleting child: ');
-							console.log(child);							
-							EditDataSrvc.deleteItem(child.type, child, function(){});
-
-						} else {
-							// Saving child
-							console.log(log_ctrl + 'Children dataType: ');
-							// EditDataSrvc.saveItem($scope.dataType, $scope.item, false, function(){});
-
-							childrenToSave.push(child);
-						}
-					};
-					childrenToSave = $scope.children;
-				} else {
-					childrenToSave = false;
-				}
-
-
-				console.log(log_ctrl + 'Children to save: ');
-				console.log(childrenToSave);
-
-				console.log(log_ctrl + 'Saving the object: ');
-				EditDataSrvc.saveItem($scope.dataType, $scope.item, childrenToSave, 
-					function(){ 
+				console.log(log_ctrl + 'Saving the season...');
+				EditDataSrvc.saveItem($scope.dataType, $scope.season, false, 
+					function(savedSeason){ 
 						$('#modal').modal('hide');
-						// callDataReload();
-						//location.reload(); 
+						console.log(log_ctrl + 'Saving results:');
+						console.log(savedSeason);
+
+						var items = [];
+						items = $scope.races.concat($scope.rules);
+
+						if (items.length>0) {
+							for (var i = 0; i < items.length; i++) {
+								var item = items[i];
+
+								if (item.toDelete && item.type) {
+									// Deleting race
+									console.log(log_ctrl + '- Deleting item: ');
+									console.log(item);
+									deleteItemRequest();							
+									EditDataSrvc.deleteItem(item.type, item, function(){});
+
+								} else {
+									// Saving race
+									item.season_id = savedSeason._id;
+									console.log(log_ctrl + 'Sending save item request: ');
+									EditDataSrvc.saveItem(item.type, item, false, function(){});
+								}
+							};
+						}
+
+						location.reload(); 
 					});
 
-				// console.log(log_ctrl + 'Save request sent..');
 				console.log(log_ctrl + '=================================================');
-
-				//$('#modal').modal('hide');
-				// callDataReload();
-				// location.reload(); 
-
 			}
 
 			$scope.cancelClick = function() {

@@ -1,11 +1,11 @@
 <div class="modal fade" id="modal">
 
-	<div class="modal-dialog wide" ng-controller="itemCtrl" ng-init="init(data, dataType)">
+	<div class="modal-dialog wide" ng-controller="seasonCtrl" ng-init="init(data, dataType)">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 ng-show="item._id" class="modal-title">Редактирование сезона: {{item.name}}</h4>
-				<h4 ng-hide="item._id" class="modal-title">Создание сезона: {{item.name}}</h4>
+				<h4 ng-show="season._id" class="modal-title">Редактирование сезона: {{season.name}}</h4>
+				<h4 ng-hide="season._id" class="modal-title">Создание сезона: {{season.name}}</h4>
 			</div>
 			<div class="modal-body">
 
@@ -13,13 +13,12 @@
 					<div class="col-md-12">
 						<form class="form-horizontal">
 
-							<input type="hidden" ng-model="item._id"/>    
-							<input type="hidden" ng-model="item.children_type" value="races"/>    
+							<input type="hidden" ng-model="season._id"/>    
 
 							<div class="form-group">
 								<label class="col-lg-2 control-label">Название</label>
 								<div class="col-lg-6">
-									<input type="text" class="form-control" ng-model="item.name" placeholder="Название сезона"/>
+									<input type="text" class="form-control" ng-model="season.name" placeholder="Название сезона"/>
 								</div>
 							</div>
 						</form>
@@ -28,54 +27,107 @@
 
 				<br/>
 
-				<div class="row" ng-showz="item._id">
+				<div class="row" ng-showz="season._id">
 					<div class="col-md-12">
+						<ul class="nav nav-tabs">
+						  <li class="active">
+						  	<a href="#racesTab" data-toggle="tab" >Этапы</a></li>
+						  <li>
+						  	<a href="#rulesTab" data-toggle="tab">Правила</a></li>
+						</ul>
+					</div>
+				</div>
 
+
+				<div class="row tab-content" ng-showz="season._id">
+					<!-- LIST OF RACES -->
+					<div class="col-md-12 tab-pane active fade in" id="racesTab">
 						<table  class="table table-condensed table-hover table-striped table-borderedz">
 							<thead>
 								<tr>
 									<th>Этап</th>
 									<th>Дата</th>
 									<th>Трасса</th>
-									<th>
+									<th width="100px;">
 										<button type="button" class="btn btn-primary btn-xs pull-right"
-														ng-click="addChildClick()">
-											<i class="icon-plus"></i> Добавить этап
+														ng-click="addRaceClick()">
+											<i class="icon-plus"></i> Добавить
 										</button>										
 									</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="child in children" ng-class="{warning:child.toDelete}">
+								<tr ng-repeat="race in races" ng-class="{warning:race.toDelete}">
 									<td>
 										<input type="text" class="form-control input-sm" 
-											ng-model="child.name"
+											ng-model="race.name"
 											placeholder="Название этапа"/>									
 									</td>
 
 									<td>
 										<input type="date" class="form-control input-sm" 
-											ng-model="child.date"
+											ng-model="race.date"
 											placeholder="Название этапа"/>									
 									</td>
 
 									<td>
 										<input type="text" class="form-control input-sm" 
-											ng-model="child.place"
+											ng-model="race.place"
 											placeholder="Место проведения этапа"/>									
 									</td>
 
 									<td>
 										<button type="button" data-toggle="button"
 														class="btn btn-danger btn-xs pull-right" 
-														ng-click="deleteChildClick(child)">
+														ng-click="deleteChildClick(race)">
 											<i class="icon-trash"></i>
 										</button>	
 									</td>
 								</tr>
 							</tbody>
 						</table>
+					</div>
 
+
+					<!-- LIST OF RULES -->
+					<div class="col-md-12 tab-pane fade" id="rulesTab">
+						<table  class="table table-condensed table-hover table-striped table-borderedz">
+							<thead>
+								<tr>
+									<th>Достижение</th>
+									<th>Количество очков</th>
+									<th width="100px;">
+										<button type="button" class="btn btn-primary btn-xs pull-right"
+														ng-click="addRuleClick()">
+											<i class="icon-plus"></i> Добавить
+										</button>										
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="rule in rules" ng-class="{warning:rule.toDelete}">
+									<td>
+										<input type="text" class="form-control input-sm" 
+											ng-model="rule.name"
+											placeholder="Достижение, например, 'Позиция 1' или 'Лучший круг'"/>
+									</td>
+
+									<td>
+										<input type="number" class="form-control input-sm" 
+											ng-model="rule.points"
+											placeholder="Название этапа"/>									
+									</td>
+
+									<td>
+										<button type="button" data-toggle="button"
+														class="btn btn-danger btn-xs pull-right" 
+														ng-click="deleteChildClick(rule)">
+											<i class="icon-trash"></i>
+										</button>	
+									</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
 

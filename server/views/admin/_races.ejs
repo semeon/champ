@@ -48,7 +48,10 @@
 						<td>{{child.date}}</td>
 						<td>{{child.place}}</td>
 						<td width="100px;">
-							<% include __item_controls.ejs %>
+							<div class="btn-group btn-group-xs pull-right hover">
+							  <button type="button" class="btn btn-primary" ng-click="editButtonClick(child)"><i class="icon-edit"></i></button>
+							  <button type="button" class="btn btn-danger" ng-click="deleteButtonClick(child)"><i class="icon-trash"></i></button>
+							</div>							
 						</td>
 					</tr>
 				</tbody>

@@ -25,14 +25,15 @@ var seasonSchema = mongoose.Schema({type: String,
 
 var rulesSchema = mongoose.Schema({	type: String,
 																		name: String, 
-																		season_id: String,
+																		points: { type: Number, min: 0, max: 1000 }, 
+																		season_id: mongoose.Schema.Types.ObjectId,
 																		deleted: Boolean});
 
 var raceSchema = mongoose.Schema({type: String,
 																	name: String, 
 																	date: String, 
 																	place: String, 
-																	parent_id: String, 
+																	season_id: mongoose.Schema.Types.ObjectId, 
 																	deleted: Boolean});
 
 var resultSchema = mongoose.Schema({type: String,
