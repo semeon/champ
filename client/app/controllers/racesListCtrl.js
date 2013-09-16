@@ -1,7 +1,7 @@
-function itemListCtrl($scope, $rootScope, $compile, EditDataSrvc, GetDataSrvc) {
-	var log_ctrl = ' - itemListCtrl: ';
+function racesListCtrl($scope, $rootScope, $compile, EditDataSrvc, GetDataSrvc) {
+	var log_ctrl = ' - racesListCtrl: ';
 	console.log('');
-	console.log('itemListCtrl Controller started');
+	console.log('racesListCtrl Controller started');
 
 
 	// Private members
@@ -12,11 +12,11 @@ function itemListCtrl($scope, $rootScope, $compile, EditDataSrvc, GetDataSrvc) {
 			})
 		}
 
-		function loadRaces(item) {
+		function loadChildren(item) {
 			console.log(log_ctrl + 'loadChildren called for');
 			console.log(item);
-			GetDataSrvc.loadItems('races', {season_id: item._id}, function(data) {
-					item.races = data;
+			GetDataSrvc.loadItems(item.children_type, {}, function(data) {
+					item.children = data;
 			})
 		}
 
@@ -49,10 +49,10 @@ function itemListCtrl($scope, $rootScope, $compile, EditDataSrvc, GetDataSrvc) {
 
 			console.log(log_ctrl + '$scope.dataType: ' + $scope.dataType);
 
-			if ($scope.dataType == 'races_grouped') {
+			if ($scope.dataType == 'races') {
 				for (var i = 0; i < $scope.items.length; i++) {
 					var item = $scope.items[i];
-					loadRaces(item);	
+					loadChildren(item);	
 				};
 			}
 		};

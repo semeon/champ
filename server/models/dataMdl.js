@@ -23,7 +23,7 @@ var seasonSchema = mongoose.Schema({type: String,
 																		children_type: String, 
 																		deleted: Boolean});
 
-var rulesSchema = mongoose.Schema({	type: String,
+var ruleSchema = mongoose.Schema({	type: String,
 																		name: String, 
 																		points: { type: Number, min: 0, max: 1000 }, 
 																		season_id: mongoose.Schema.Types.ObjectId,
@@ -36,18 +36,26 @@ var raceSchema = mongoose.Schema({type: String,
 																	season_id: mongoose.Schema.Types.ObjectId, 
 																	deleted: Boolean});
 
-var resultSchema = mongoose.Schema({type: String,
-																		name: String, 
-																		date: String, 
-																		race_id: String, 
+var resultSchema = mongoose.Schema({race_id: mongoose.Schema.Types.ObjectId,
+																		rule_id: mongoose.Schema.Types.ObjectId,
+																		member_id: mongoose.Schema.Types.ObjectId,
 																		deleted: Boolean});
+
+var memberSchema = mongoose.Schema({race_id: mongoose.Schema.Types.ObjectId,
+																		driver_id: mongoose.Schema.Types.ObjectId,
+																		team_id: mongoose.Schema.Types.ObjectId,
+																		deleted: Boolean});
+
+
 
 var modelMap = {};
 modelMap['drivers'] 	= mongoose.model('drivers', driverSchema);
 modelMap['teams'] 		= mongoose.model('teams', teamSchema);
 modelMap['seasons'] 	= mongoose.model('seasons', seasonSchema);
-modelMap['rules'] 	= mongoose.model('rules', rulesSchema);
+modelMap['rules'] 	= mongoose.model('rules', ruleSchema);
 modelMap['races'] 	= mongoose.model('races', raceSchema);
+modelMap['results'] 	= mongoose.model('results', resultSchema);
+modelMap['members'] 	= mongoose.model('members', memberSchema);
 
 exports.getModel = function(modelName) {
 	console.log(logPref + 'modelName requested: ' + modelName);

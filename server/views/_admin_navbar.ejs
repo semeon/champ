@@ -28,8 +28,13 @@
         <a href="/admin/seasons">Сезоны</a>
       </li>
 
+
+      <li <% if (page == 'races_grouped') {%> class="active"<%}%>>
+        <a href="/admin/racesBySeasons">Этапы</a>
+      </li>
+
       <li <% if (page == 'races') {%> class="active"<%}%>>
-        <a href="/admin/races">Этапы</a>
+        <a href="/admin/races">_Этапы</a>
       </li>
 
       <li class="dropdown">

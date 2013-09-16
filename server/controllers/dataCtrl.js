@@ -19,22 +19,16 @@ function getDataType (urlParam) {
 
 // Page Renderers
 // ------------------------------------
+exports.showRacesBySeasons = function(req, res) {
 
-exports.showItemsPage = function(req, res) {
-	var dataType = getDataType(req.params.dataType);
-	console.log(logPref + dataType);
-
-	var page = dataType;
-	var model = dataMdl.getModel(dataType);
-
-	if (dataType == 'races') {
-		var model = dataMdl.getModel('seasons');
-	}
+	var page = 'races_grouped';
+	var model = dataMdl.getModel('seasons');
+	console.log(logPref + 'Page: ' + page);
 
 	var renderer = function(data) {
 		res.render( 'admin/item_list', 
-								{ title: pageTitles[dataType],
-									 page: dataType,
+								{ title: 'Этапы',
+									 page: page,
 									 user: req.user,
 									 data: data
 								}
@@ -45,6 +39,30 @@ exports.showItemsPage = function(req, res) {
 	if (model) {
 		dataMdl.getItemList(model, false, renderer);
 
+	} else {
+		res.redirect('/admin/error');  
+	}
+};
+
+exports.showItemsPageDefault = function(req, res) {
+	var dataType = getDataType(req.params.dataType);
+	var page = dataType;
+	var model = dataMdl.getModel(dataType);
+	console.log(logPref + 'Page: ' + page);
+
+	var renderer = function(data) {
+		res.render( 'admin/item_list', 
+								{ title: pageTitles[dataType],
+									 page: page,
+									 user: req.user,
+									 data: data
+								}
+							);
+	}
+
+	console.log(logPref + 'Model: ' + model.modelName);
+	if (model) {
+		dataMdl.getItemList(model, false, renderer);
 	} else {
 		res.redirect('/admin/error');  
 	}

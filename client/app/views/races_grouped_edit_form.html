@@ -1,0 +1,128 @@
+<div class="modal fade" id="modal">
+
+	<div class="modal-dialog wide" ng-controller="raceCtrl" ng-init="init(data, dataType)">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 ng-show="race._id" class="modal-title">Редактирование этапа: {{race.name}}</h4>
+				<h4 ng-hide="race._id" class="modal-title">Создание этапа: {{race.name}}</h4>
+			</div>
+			<div class="modal-body">
+
+				<div class="row">
+					<div class="col-md-12">
+						<form class="form-horizontal">
+
+							<input type="hidden" ng-model="race._id"/>    
+
+							<div class="form-group">
+								<label class="col-lg-2 control-label">Название</label>
+								<div class="col-lg-6">
+									<input type="text" class="form-control" ng-model="race.name" placeholder="Название сезона"/>
+								</div>
+							</div>
+						</form>
+						<p>Участников: {{members.length}}</p>
+						<p>Результатов: {{results.length}}</p>
+					</div>
+				</div>
+
+				<br/>
+
+				<div class="row" ng-showz="race._id">
+					<div class="col-md-12">
+						<ul class="nav nav-tabs">
+							<li class="active">
+								<a href="#raceMembers" data-toggle="tab" >Участники</a></li>
+							<li>
+								<a href="#rulesTab" data-toggle="tab">Результаты</a></li>
+						</ul>
+					</div>
+				</div>
+
+
+				<div class="row tab-content" ng-showz="race._id">
+					<!-- LIST OF MEMBERS -->
+					<div class="col-md-12 tab-pane active fade in" id="raceMembers">
+						<table  class="table table-condensed table-hover table-striped table-borderedz">
+							<thead>
+								<tr>
+									<th>Пилот</th>
+									<th>Команда</th>
+									<th width="100px;">
+										<button type="button" class="btn btn-primary btn-xs pull-right"
+														ng-click="addMemberClick()">
+											<i class="icon-plus"></i> Добавить
+										</button>										
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="member in members" ng-class="{warning:member.toDelete}">
+									<td>
+										<select class="form-control input-sm" ng-model="member.driver_id">
+											<option ng-repeat="driver in drivers" value="{{driver._id}}">{{driver.name}}</option>
+										</select>									
+									</td>
+
+									<td>
+										<select class="form-control input-sm" ng-model="member.team_id">
+											<option ng-repeat="team in teams" value="{{team._id}}">{{team.name}}</option>
+										</select>									
+									</td>
+
+									<td>
+										<button type="button" data-toggle="button"
+														class="btn btn-danger btn-xs pull-right" 
+														ng-click="deleteChildClick(member)">
+											<i class="icon-trash"></i>
+										</button>	
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+
+					<!-- LIST OF RESULTS -->
+					<div class="col-md-12 tab-pane fade" id="rulesTab">
+						<table  class="table table-condensed table-hover table-striped table-borderedz">
+							<thead>
+								<tr>
+									<th>Достижение</th>
+									<th>Участник</th>
+									<th>Количество очков</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="result in results">
+									<td>
+										<p>{{result.name}}</p>
+									</td>
+
+									<td>
+										<select class="form-control input-sm" ng-model="result.member_id">
+										  <option ng-repeat="member in members" value="{{member.driver_id}}">
+										  {{getDriverById(member.driver_id).name}} / {{getTeamById(member.team_id).name}}
+
+										  </option>
+										</select>													
+									</td>
+
+									<td>
+										<p>{{result.points}}</p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" ng-click="saveChangesClick()">Сохранить изменения</button>
+				<button type="button" class="btn btn-default" ng-click="cancelClick()">Отменить</button>
+			</div>
+		</div>
+	</div>
+</div>

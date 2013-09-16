@@ -124,6 +124,16 @@ function seasonCtrl($scope, $rootScope, $compile, GetDataSrvc, EditDataSrvc) {
 						var items = [];
 						items = $scope.races.concat($scope.rules);
 
+						// console.log(log_ctrl + '- $scope.races: ');
+						// console.log($scope.races);
+
+						// console.log(log_ctrl + '- $scope.rules: ');
+						// console.log($scope.rules);
+
+						// console.log(log_ctrl + '- items: ');
+						// console.log(items);
+
+
 						if (items.length>0) {
 							for (var i = 0; i < items.length; i++) {
 								var item = items[i];
@@ -132,7 +142,6 @@ function seasonCtrl($scope, $rootScope, $compile, GetDataSrvc, EditDataSrvc) {
 									// Deleting race
 									console.log(log_ctrl + '- Deleting item: ');
 									console.log(item);
-									deleteItemRequest();							
 									EditDataSrvc.deleteItem(item.type, item, function(){});
 
 								} else {
