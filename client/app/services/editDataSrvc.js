@@ -1,65 +1,76 @@
 appModule.factory('EditDataSrvc', ['$http', function($http) {
-  var log_ctrl = ' - EditDataSrvc: ';
-  console.log('');
-  console.log('EditDataSrvc started');
+	var log_ctrl = ' - EditDataSrvc: ';
+	console.log('');
+	console.log('EditDataSrvc started');
 
-  var editDataSrvc = {};
+	var editDataSrvc = {};
 
-  editDataSrvc.getEditFormTemplate = function(dataType, callback) {
-    var url = '/app/views/' + dataType + '_edit_form.html';
+	function isEmptyObject(obj) {
+		return !Object.keys(obj).length;
+	}
 
-    if (!url) {
-      console.error(log_ctrl + 'Error: cannot find form template URL for dataType ' + dataType);
-      return;
-    }
+	editDataSrvc.getEditFormTemplate = function(dataType, callback) {
+		var url = '/app/views/' + dataType + '_edit_form.html';
 
-    $http.get(url).success(function(html) {
-                            callback(html)
-                          });
-  }
+		if (!url) {
+			console.error(log_ctrl + 'Error: cannot find form template URL for dataType ' + dataType);
+			return;
+		}
 
-  editDataSrvc.deleteItem = function(dataType, obj, callback) {
-    console.log(log_ctrl + 'Delete called for object:');
-    console.log(obj);
+		$http.get(url).success(function(html) {
+														callback(html)
+													});
+	}
 
-    var url = '/data/' + dataType + '/delete/' + obj._id;
-    if (!url) {
-      console.error(log_ctrl + 'Error: cannot create delete URL for dataType ' + dataType);
-      return;
-    }
+	editDataSrvc.deleteItem = function(dataType, obj, callback) {
+		console.log(log_ctrl + 'Delete called for object:');
+		console.log(obj);
 
-    $http({
-      url: url, 
-      method: "GET"
-    }).success(
-      function(data) {
-        console.log(log_ctrl + 'Deleting result:');
-        console.log(data);
-        callback();
-      });
-  }
+		var url = '/data/' + dataType + '/delete/' + obj._id;
+		if (!url) {
+			console.error(log_ctrl + 'Error: cannot create delete URL for dataType ' + dataType);
+			return;
+		}
 
-  editDataSrvc.saveItem = function(dataType, item, children, callback) {
-    var url = '/data/' + dataType + '/save';
+		$http({
+			url: url, 
+			method: "GET"
+		}).success(
+			function(data) {
+				console.log(log_ctrl + 'Deleting result:');
+				console.log(data);
+				callback();
+			});
+	}
 
-    if (!dataType || !url) {
-      console.error(log_ctrl + 'Error: cannot create delete URL for dataType ' + dataType);
-      return;
-    }
-    console.log(log_ctrl + 'Save called for ' + dataType);
-    console.log(log_ctrl + 'url: ' + url);
+	editDataSrvc.saveItem = function(dataType, item, children, callback) {
+		var url = '/data/' + dataType + '/save';
 
-    $http({
-      url: url, 
-      method: "POST",
-      data: {item: item, children: children}
-    }).success(
-      function(result) {
-        console.log(log_ctrl + 'Saving result:');
-        console.log(result);
-        callback(result);
-      });
-  }
+		if (isEmptyObject(item)) {
+			
+		}
 
-  return editDataSrvc;
+		if (!dataType || !url) {
+			console.error(log_ctrl + 'Error: cannot create delete URL for dataType ' + dataType);
+			return;
+		}
+
+		console.log(log_ctrl + 'Save called for ' + dataType);
+		console.log(log_ctrl + 'url: ' + url);
+
+		$http({
+			url: url, 
+			method: "POST",
+			data: {item: item, children: children}
+		}).success(
+			function(result) {
+				console.log(log_ctrl + 'Saving result:');
+				console.log(result);
+				callback(result);
+			});
+	}
+
+	return editDataSrvc;
+
+
 }]);
