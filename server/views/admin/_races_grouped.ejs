@@ -9,7 +9,7 @@
 				</a>
 			</h4>
 		</div>
-		<div id="{{item._id}}" class="panel-collapse collapse">
+		<div id="{{item._id}}" class="panel-collapse collapse" ng-class="{in:$first}">
 			<div class="panel-body">
 
 			<table ng-shows="item.children.length" class="table table-condensed table-hover table-striped">
